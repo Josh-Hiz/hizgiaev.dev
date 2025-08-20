@@ -8,6 +8,7 @@ import vercelServerless from '@astrojs/vercel';
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
+  adapter: vercelServerless(),
   vite: {
     css: {
       transformer: "lightningcss"
@@ -28,5 +29,4 @@ export default defineConfig({
       fallbacks: ["Inter", "sans-serif"],
     }]
   },
-  adapter: vercelServerless(),
 });
