@@ -3,12 +3,10 @@ import { defineConfig, fontProviders } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import playformCompress from '@playform/compress';
 import react from "@astrojs/react";
-import vercelServerless from '@astrojs/vercel';
+import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'server',
-  adapter: vercelServerless(),
   vite: {
     css: {
       transformer: "lightningcss"
@@ -18,9 +16,7 @@ export default defineConfig({
     },
     plugins: [tailwindcss()]
   },
-
   integrations: [react(), playformCompress()],
-
   experimental: {
     fonts: [{
       provider: fontProviders.google(),
@@ -29,4 +25,6 @@ export default defineConfig({
       fallbacks: ["Inter", "sans-serif"],
     }]
   },
+  output: 'server',
+  adapter: vercel(),
 });
