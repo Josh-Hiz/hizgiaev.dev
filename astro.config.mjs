@@ -28,7 +28,6 @@ export default defineConfig({
       fallbacks: ["Inter", "sans-serif"],
     }]
   },
-  base: process.env.NODE_ENV === 'production' ? '/' : '/',
-  output: 'static',
+  output: 'server',
   adapter: vercel(),
 });
