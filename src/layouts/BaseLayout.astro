@@ -2,7 +2,6 @@
 import '../styles/global.css';
 import { Font } from 'astro:assets';
 import { ClientRouter } from 'astro:transitions';
-import LoadingIndicator from "astro-loading-indicator/component"
 
 const { pageTitle, pageDescription } = Astro.props;
 
@@ -32,7 +31,7 @@ const description = pageDescription ?? defaultDescription;
 		<ClientRouter />
 
     </head>
-    <body class="font-sans bg-zinc-900 min-h-screen" transition:animate="slide">
+    <body class="font-sans bg-zinc-900 min-h-screen">
         <slot />
     </body>
 </html>
