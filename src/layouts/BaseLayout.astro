@@ -12,7 +12,6 @@ const defaultDescription = "Interested in quant, software engineering, research,
 const title = pageTitle ?? defaultPageTitle;
 const description = pageDescription ?? defaultDescription;
 ---
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -31,10 +30,9 @@ const description = pageDescription ?? defaultDescription;
 
 		<Font cssVariable="--font-geist" preload />
 		<ClientRouter />
-        <LoadingIndicator color="#f4f4f5" height="2px" />
 
     </head>
-    <body class="font-sans bg-zinc-900 min-h-screen">
+    <body class="font-sans bg-zinc-900 min-h-screen" transition:animate="slide">
         <slot />
     </body>
 </html>

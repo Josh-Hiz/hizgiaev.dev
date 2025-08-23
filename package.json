@@ -27,6 +27,7 @@
     "tailwindcss": "^4.1.12"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.16",
     "lightningcss": "^1.30.1"
   }
 }

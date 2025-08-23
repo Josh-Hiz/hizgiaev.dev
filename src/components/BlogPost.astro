@@ -1,0 +1,33 @@
+---
+const { title, url } = Astro.props;
+---
+
+<li class="list-none border-b border-zinc-800">
+  <a
+    href={url}
+    class="w-full group flex items-center justify-between py-4 text-lg md:text-xl lg:text-2xl text-zinc-400 hover:text-zinc-100 transition-colors focus-visible:outline-2 outline-offset-2 outline-zinc-100/20"
+  >
+    <span class="group-hover:underline underline-offset-4 decoration-zinc-600">
+      {title}
+    </span>
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="-rotate-45 group-hover:rotate-0 transition-all duration-300 ease-in-out"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <title>Arrow Icon</title>
+      <path
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.5"
+        d="M4 12h2.5M20 12l-6-6m6 6l-6 6m6-6H9.5"
+      />
+    </svg>
+  </a>
+</li>

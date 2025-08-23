@@ -7,6 +7,9 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
+  prefetch: {
+    prefetchAll: true
+  },
   vite: {
     css: {
       transformer: "lightningcss"

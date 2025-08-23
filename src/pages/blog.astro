@@ -1,0 +1,29 @@
+---
+import InfoLayout from "../layouts/InfoLayout.astro"
+import BlogPost from "../components/BlogPost.astro";
+const allPosts = Object.values(import.meta.glob('./posts/*.md', {eager: true}));
+const pageTitle = "My Blog"
+---
+<InfoLayout pageTitle={pageTitle}>
+    <div class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col justify-between"> 
+        <div>
+            <h1 class="text-white font-bold text-balance text-4xl md:text-6xl xl:text-8xl tracking-tight">My Blog</h1>
+            <p class="mt-4 md:mt-8 lg:mt-12 text-xl xl:text-2xl text-zinc-400 text-balance">
+                Checkout my newest blog!
+            </p>
+            <div class="mt-6 sm:mt-12 flex flex-col gap-1">
+                <div class="space-y-4 sm:space-y-12">
+                    <ul>
+                        {allPosts.map((post: any) => <BlogPost url={post.url} title={post.frontmatter.title} />)}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <p class="text-base text-zinc-500">Hoboken, NJ</p>
+            <p class="text-base text-zinc-500">New York City, NY</p>
+            <p class="text-base text-zinc-500">United States</p>
+        </div>
+    </div>
+</InfoLayout>
