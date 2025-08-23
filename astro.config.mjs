@@ -3,7 +3,7 @@ import { defineConfig, fontProviders } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import playformCompress from '@playform/compress';
 import react from "@astrojs/react";
-import vercelServerless from '@astrojs/vercel';
+import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
@@ -29,6 +29,6 @@ export default defineConfig({
     }]
   },
   base: process.env.NODE_ENV === 'production' ? '/' : '/',
-  output: 'server',
-  adapter: vercelServerless(),
+  output: 'static',
+  adapter: vercel(),
 });
