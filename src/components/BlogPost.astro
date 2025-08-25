@@ -6,6 +6,7 @@ const { title, url } = Astro.props;
   <a
     href={url}
     class="w-full group flex items-center justify-between py-4 text-lg md:text-xl lg:text-2xl text-zinc-400 hover:text-zinc-100 transition-colors focus-visible:outline-2 outline-offset-2 outline-zinc-100/20"
+    data-astro-prefetch="hover"
   >
     <span class="group-hover:underline underline-offset-4 decoration-zinc-600">
       {title}
