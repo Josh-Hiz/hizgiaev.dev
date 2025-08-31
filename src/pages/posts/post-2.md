@@ -76,4 +76,4 @@ The main takeaway however, is that these puzzle solutions are far more elegant i
 
 If you want to solve the current one, head over to [Jane Streets puzzle page](https://www.janestreet.com/puzzles/current-puzzle/), they are really fun to solve when you have some time laying around!
 
-In addition, whenver I am able to solve a puzzle, at the end of the month I will make a blog post detailing the solution and steps of solving. Thank you for reading!
+In addition, whenever I am able to solve a puzzle, at the end of the month I will make a blog post detailing the solution and steps of solving. Thank you for reading!
