@@ -3,10 +3,15 @@ import BaseLayout from "./BaseLayout.astro";
 import WarpBackground from "../components/backgrounds/Warp";
 import Footer from "../components/Footer.astro";
 ---
+
 <BaseLayout>
-<div class="flex relative gap-4 w-full max-w-screen-xl">
-		<nav class="relative w-4 md:min-w-2xs xl:min-w-sm sm:min-h-screen sm:ml-4 sm:pb-4">
-			<div class="w-full h-full max-sm:w-4 md:max-w-2xs xl:max-w-sm fixed -z-10 sm:bottom-4 sm:rounded-b-full overflow-hidden">
+	<div class="flex relative gap-4 w-full max-w-7xl">
+		<nav
+			class="relative w-4 md:min-w-2xs xl:min-w-sm sm:min-h-screen sm:ml-4 sm:pb-4"
+		>
+			<div
+				class="w-full h-full max-sm:w-4 md:max-w-2xs xl:max-w-sm fixed -z-10 sm:bottom-4 sm:rounded-b-full overflow-hidden"
+			>
 				<WarpBackground
 					color1="#ffffff"
 					color2="#27272a"
@@ -22,6 +27,7 @@ import Footer from "../components/Footer.astro";
 
 		<main class="relative">
 			<slot />
-            <Footer />
+			<Footer />
 		</main>
-</BaseLayout>
+	</div></BaseLayout
+>
