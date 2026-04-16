@@ -15,14 +15,12 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
   integrations: [react(), playformCompress()],
-  experimental: {
-    fonts: [{
-      provider: fontProviders.google(),
-      name: "Geist",
-      cssVariable: "--font-geist",
-      fallbacks: ["Inter", "sans-serif"],
-    }]
-  },
+  fonts: [{
+    provider: fontProviders.google(),
+    name: "Geist",
+    cssVariable: "--font-geist",
+    fallbacks: ["Inter", "sans-serif"],
+  }],
   output: 'server',
   adapter: vercel(),
 });

@@ -7,7 +7,7 @@ author: 'Joshua Hizgiaev'
 tags: ["JaneStreet", "Puzzle"]
 ---
 
-# What is Jane Street?
+## What is Jane Street?
 
 [Jane Street](https://www.janestreet.com/) is a global **proprietary quantitative trading firm** and **liquidity provider (market maker)**. The firm trades electronically across many asset classes and is known for a heavy focus on technology, collaborative problem-solving, and functional programming (notably OCaml, with open-source libraries like [Base](https://opensource.janestreet.com/base/)).
 
@@ -37,7 +37,7 @@ This gives a hint that we will possibly derive a string based on the dogs faces 
 4. Woozy Face
 5. Anguished Face
 6. Pouting Cat Face
-7. Confounded Face 
+7. Confounded Face
 8. Squinting Face With Tongue Face
 
 From here, I was kind of stuck and tried several methods. For example, seeing if the first letter of each emoji name was an anagram, seeing if the unicode values of letters had a unique property, seeing if the emojis of the animals who had thier paw down on the table had something in common, etc.
@@ -52,10 +52,10 @@ What if, the numerical value of the cards act as an index towards the name? If w
 4. WoozyFace -> yc
 5. AnguishedFace -> hi
 6. PoutingCat -> pc
-7. ConfoundedFace -> ou 
+7. ConfoundedFace -> ou
 8. SquintingFaceWithTongueFace -> nt
 
-shiftbychipcount -> Shift by chip count! Progress! But all that work just for a hint? Well now we know the next step involves the chips themselves, which also narrows down the possible ways we can use the chips, most likely in a similar way we just used the card numbers. 
+shiftbychipcount -> Shift by chip count! Progress! But all that work just for a hint? Well now we know the next step involves the chips themselves, which also narrows down the possible ways we can use the chips, most likely in a similar way we just used the card numbers.
 
 Looking back at the image, each card has a stack of chips next to it, and we clearly need to shift **some letter** by this chip count. Lets try shifting the letters (mod 26) we got from indexing the emoji names by these chip counts in clockwise order once again:
 
