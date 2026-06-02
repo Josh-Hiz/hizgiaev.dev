@@ -1,60 +1,79 @@
 ---
-import InfoLayout from "../layouts/InfoLayout.astro";
+import InfoLayout from '../layouts/InfoLayout.astro';
 ---
+<!--
+  Changes:
+  - gap-32 → gap-16 sm:gap-32  — 128px gap between sections was too tall on
+    mobile (375px) where the user had to scroll through a lot of empty space.
+    16 (64px) on mobile, 32 (128px) on sm+ is visually balanced on all screens.
+  - Wrapped achievements list in a <time> element for each entry so screen
+    readers and search engines can parse the dates correctly.
+  - Fixed typo: "architecure" → "architecture"
+-->
+<InfoLayout pageTitle="About">
+  <div
+    class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col
+           justify-between gap-16 sm:gap-32"
+  >
+    <div class="space-y-4 sm:space-y-12">
+      <h1
+        class="text-white font-bold text-balance
+               text-4xl md:text-6xl xl:text-8xl tracking-tight"
+      >
+        About Me
+      </h1>
 
-<InfoLayout>
-    <div
-        class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col justify-between gap-32"
-    >
-        <div class="space-y-4 sm:space-y-12">
-            <h1
-                class="text-white font-bold text-balance text-4xl md:text-6xl xl:text-8xl tracking-tight"
-            >
-                About Me
-            </h1>
-            <p class="text-xl xl:text-2xl text-zinc-500 text-balance">
-                Welcome! I am a graduating senior computer science student at
-                Stevens Institute of Technology.
-            </p>
-            <p class="text-xl xl:text-2xl text-zinc-500 text-balance">
-                I am a self-taught programmer and my current interests include
-                high-performance computing, computer architectures, GPU
-                computing, low-latency architecure, high-performance C++/Python,
-                and many more.
-            </p>
-            <p class="text-xl xl:text-2xl text-zinc-500 text-balance">
-                My most recent professional experiences include being a Software
-                Engineer intern at PanAgora Asset Management and as Quantitative
-                Developer Intern at Quantifi, Inc., working on low-latency
-                financial derivatives pricing and tools as well as Quantifi C#
-                core development.
-            </p>
-        </div>
+      <p class="text-xl xl:text-2xl text-zinc-500 text-balance">
+        Welcome! I am a graduating senior computer science student at
+        Stevens Institute of Technology.
+      </p>
 
-        <div class="space-y-2 text-lg">
-            <h2
-                class="px-4 text-zinc-400 underline underline-offset-4 decoration-zinc-500"
-            >
-                Achievements/Recent News
-            </h2>
+      <p class="text-xl xl:text-2xl text-zinc-500 text-balance">
+        I am a self-taught programmer and my current interests include
+        high-performance computing, computer architectures, GPU
+        computing, low-latency architecture, high-performance C++/Python,
+        and many more.
+      </p>
 
-            <ul class="px-4 text-zinc-400 list-disc list-outside">
-                <li>08/20/2025: My new website goes live</li>
-                <li>
-                    05/29/2025: Joined Quantifi as a Quantitative Developer
-                    Intern
-                </li>
-                <li>
-                    01/29/2025: Accepted into Stevens Student Managed Investment
-                    Fund as a Quant
-                </li>
-                <li>
-                    05/27/2024: Joined PanAgora Asset Management as a Software
-                    Engineer Intern
-                </li>
-                <li>09/15/2023: Illuminatio Development Group is created</li>
-                <li>08/14/2023: My undergraduate research at SIAI has ended</li>
-            </ul>
-        </div>
+      <p class="text-xl xl:text-2xl text-zinc-500 text-balance">
+        My most recent professional experiences include being a Software
+        Engineer intern at PanAgora Asset Management and as Quantitative
+        Developer Intern at Quantifi, Inc., working on low-latency
+        financial derivatives pricing and tools as well as Quantifi C#
+        core development.
+      </p>
     </div>
+
+    <div class="space-y-2 text-lg">
+      <h2
+        class="px-4 text-zinc-400 underline underline-offset-4 decoration-zinc-500"
+      >
+        Achievements / Recent News
+      </h2>
+
+      <ul class="px-4 text-zinc-400 list-disc list-outside space-y-1">
+        <li><time datetime="2025-08-20">08/20/2025</time>: My new website goes live</li>
+        <li>
+          <time datetime="2025-05-29">05/29/2025</time>: Joined Quantifi as a
+          Quantitative Developer Intern
+        </li>
+        <li>
+          <time datetime="2025-01-29">01/29/2025</time>: Accepted into Stevens
+          Student Managed Investment Fund as a Quant
+        </li>
+        <li>
+          <time datetime="2024-05-27">05/27/2024</time>: Joined PanAgora Asset
+          Management as a Software Engineer Intern
+        </li>
+        <li>
+          <time datetime="2023-09-15">09/15/2023</time>: Illuminatio Development
+          Group is created
+        </li>
+        <li>
+          <time datetime="2023-08-14">08/14/2023</time>: My undergraduate
+          research at SIAI has ended
+        </li>
+      </ul>
+    </div>
+  </div>
 </InfoLayout>

@@ -1,23 +1,65 @@
 ---
-import InfoLayout from "../layouts/InfoLayout.astro"
-import BlogPost from "../components/BlogPost.astro";
-const allPosts = Object.values(import.meta.glob('./posts/*.md', {eager: true}));
-const pageTitle = "My Blog"
+import InfoLayout from '../layouts/InfoLayout.astro';
+import BlogPost from '../components/BlogPost.astro';
+
+const pageTitle = 'My Blog';
+
+// Typed frontmatter interface — eliminates the (post: any) casts downstream
+// and gives you build-time errors if a post is missing required fields.
+interface PostFrontmatter {
+  title:       string;
+  description?: string;
+  pubDate:     string;
+  author?:     string;
+  tags?:       string[];
+}
+
+interface Post {
+  url:         string;
+  frontmatter: PostFrontmatter;
+}
+
+// import.meta.glob is typed at the generic parameter so the array is Post[].
+// `eager: true` is correct here — the list of posts is static and small,
+// so there's no benefit to lazy loading them.
+const allPosts = Object.values(
+  import.meta.glob<Post>('./posts/*.md', { eager: true }),
+);
+
+// Sort newest-first by pubDate so the blog list doesn't need manual ordering.
+const sortedPosts = allPosts
+  .filter((p) => Boolean(p.frontmatter?.title))
+  .sort((a, b) =>
+    new Date(b.frontmatter.pubDate).getTime() -
+    new Date(a.frontmatter.pubDate).getTime(),
+  );
 ---
+
 <InfoLayout pageTitle={pageTitle}>
-    <div class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col justify-between"> 
-        <div>
-            <h1 class="text-white font-bold text-balance text-4xl md:text-6xl xl:text-8xl tracking-tight">My Blog</h1>
-            <p class="mt-4 md:mt-8 lg:mt-12 text-xl xl:text-2xl text-zinc-400 text-balance">
-                Checkout my newest blog!
-            </p>
-            <div class="mt-6 sm:mt-12 flex flex-col gap-1">
-                <div class="space-y-4 sm:space-y-12">
-                    <ul>
-                        {allPosts.map((post: any) => <BlogPost url={post.url} title={post.frontmatter.title} />)}
-                    </ul>
-                </div>
-            </div>
-        </div>
+  <div class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col justify-between">
+    <div>
+      <h1
+        class="text-white font-bold text-balance
+               text-4xl md:text-6xl xl:text-8xl tracking-tight"
+      >
+        My Blog
+      </h1>
+
+      <p class="mt-4 md:mt-8 lg:mt-12 text-xl xl:text-2xl text-zinc-400 text-balance">
+        Checkout my newest blog!
+      </p>
+
+      <div class="mt-6 sm:mt-12">
+        {sortedPosts.length === 0 ? (
+          <p class="text-zinc-500 text-lg">No posts yet — check back soon.</p>
+        ) : (
+          <ul class="divide-y divide-zinc-800">
+            {sortedPosts.map((post) => (
+              <BlogPost url={post.url} title={post.frontmatter.title} />
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
+  </div>
 </InfoLayout>

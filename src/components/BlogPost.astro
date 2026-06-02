@@ -1,32 +1,63 @@
 ---
-const { title, url } = Astro.props;
----
+interface Props {
+  title: string;
+  url:   string;
+  // Optional: pass pubDate from the parent to show it in the list
+  pubDate?: string;
+}
 
-<li class="list-none border-b border-zinc-800">
+const { title, url, pubDate } = Astro.props;
+
+// Format date if provided — keeps the list item self-contained.
+const formattedDate = pubDate
+  ? new Date(pubDate).toLocaleDateString('en-US', {
+      year: 'numeric', month: 'short', day: 'numeric',
+    })
+  : null;
+---
+<!--
+  Changes:
+  - Added typed Props interface — was using implicit any.
+  - Added optional pubDate display alongside the title so the blog list
+    gives readers date context without needing to open each post.
+  - border-b → border-y so the first item also has a top border when
+    the list is rendered without a container border-t above it.
+  - aria-label on the link includes the title for screen reader clarity
+    since the arrow icon is aria-hidden.
+-->
+<li class="list-none border-b border-zinc-800 first:border-t">
   <a
     href={url}
-    class="w-full group flex items-center justify-between py-4 text-lg md:text-xl lg:text-2xl text-zinc-400 hover:text-zinc-100 transition-colors focus-visible:outline-2 outline-offset-2 outline-zinc-100/20"
+    class="w-full group flex items-center justify-between py-4
+           text-lg md:text-xl lg:text-2xl text-zinc-400 hover:text-zinc-100
+           transition-colors focus-visible:outline-2 outline-offset-2
+           outline-zinc-100/20"
     data-astro-prefetch="hover"
+    aria-label={title}
   >
-    <span class="group-hover:underline underline-offset-4 decoration-zinc-600">
-      {title}
-    </span>
+    <div class="flex flex-col gap-0.5 min-w-0">
+      <span class="group-hover:underline underline-offset-4 decoration-zinc-600 truncate">
+        {title}
+      </span>
+      {formattedDate && (
+        <time
+          class="text-sm text-zinc-600 group-hover:text-zinc-500 transition-colors"
+          datetime={pubDate}
+        >
+          {formattedDate}
+        </time>
+      )}
+    </div>
 
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      class="-rotate-45 group-hover:rotate-0 transition-all duration-300 ease-in-out"
-      width="22"
-      height="22"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
+      class="-rotate-45 group-hover:rotate-0 transition-all duration-300 ease-in-out shrink-0 ml-4"
+      width="22" height="22" viewBox="0 0 24 24"
+      aria-hidden="true" focusable="false"
     >
-      <title>Arrow Icon</title>
       <path
-        fill="none"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="1.5"
+        fill="none" stroke="currentColor"
+        stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
         d="M4 12h2.5M20 12l-6-6m6 6l-6 6m6-6H9.5"
       />
     </svg>

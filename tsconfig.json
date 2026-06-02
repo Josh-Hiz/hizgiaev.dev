@@ -8,7 +8,22 @@
     "dist"
   ],
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "react"
+    "jsx":             "react-jsx",
+    "jsxImportSource": "react",
+
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@layouts/*":    ["src/layouts/*"],
+      "@styles/*":     ["src/styles/*"]
+    },
+
+    "strict":                    true,
+    "noUncheckedIndexedAccess":  true,
+    "exactOptionalPropertyTypes": true
   }
 }

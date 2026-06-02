@@ -1,5 +1,17 @@
 ---
-import InfoLayout from "../layouts/InfoLayout.astro";
+// KaTeX stylesheet is now injected via BaseLayout's <slot name="head"> so it
+// only loads on blog post pages — not on every page of the site.
+import InfoLayout from '../layouts/InfoLayout.astro';
+
+interface Props {
+  frontmatter: {
+    title:       string;
+    description?: string;
+    pubDate:     string | Date;
+    author?:     string;
+    tags?:       string[];
+  };
+}
 
 const { frontmatter } = Astro.props;
 const {
@@ -10,18 +22,34 @@ const {
   tags = [],
 } = frontmatter ?? {};
 
-// Robust date formatting (works for Date or string)
-const d = pubDate instanceof Date ? pubDate : new Date(pubDate);
+// Robust date formatting — handles both Date objects and ISO strings.
+const d             = pubDate instanceof Date ? pubDate : new Date(pubDate);
 const formattedDate = isNaN(d.getTime())
-  ? String(pubDate ?? "")
-  : d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  ? String(pubDate ?? '')
+  : d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
-
 <InfoLayout pageTitle={title}>
+  <!--
+    KaTeX stylesheet injected only on blog pages via the head slot.
+    Previously this lived in BaseLayout and blocked rendering on every page
+    including the homepage, about, contact, etc.
+
+    Pinned to 0.16.x (latest stable). 0.13.0 was outdated by ~3 major versions.
+  -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5"
+    crossorigin="anonymous"
+    slot="head"
+  />
+
   <article class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col">
     <!-- Header -->
     <header>
-      <h1 class="text-white font-bold text-balance text-4xl md:text-6xl xl:text-8xl tracking-tight">
+      <h1
+        class="text-white font-bold text-balance text-4xl md:text-6xl xl:text-8xl tracking-tight"
+      >
         {title}
       </h1>
 
@@ -31,7 +59,9 @@ const formattedDate = isNaN(d.getTime())
         </p>
       )}
 
-      <div class="mt-4 md:mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm md:text-base text-zinc-500">
+      <div
+        class="mt-4 md:mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm md:text-base text-zinc-500"
+      >
         {formattedDate && <span>{formattedDate}</span>}
         {author && (
           <>
@@ -57,11 +87,14 @@ const formattedDate = isNaN(d.getTime())
     </header>
 
     <!-- Content -->
-    <section class="prose prose-invert prose-zinc max-w-none mt-6 sm:mt-10
-                prose-p:my-4 prose-p:leading-relaxed
-                prose-h2:mt-8 prose-h2:mb-3 prose-h2:text-2xl md:prose-h2:text-3xl
-                prose-ul:my-4 prose-ol:my-4 prose-li:my-1
-                prose-a:text-zinc-300 hover:prose-a:text-zinc-200">
+    <section
+      class="prose prose-invert prose-zinc max-w-none mt-6 sm:mt-10
+             prose-p:my-4 prose-p:leading-relaxed
+             prose-h2:mt-8 prose-h2:mb-3 prose-h2:text-2xl md:prose-h2:text-3xl
+             prose-ul:my-4 prose-ol:my-4 prose-li:my-1
+             prose-a:text-zinc-300 hover:prose-a:text-zinc-200
+             prose-code:font-mono prose-pre:bg-zinc-800/60"
+    >
       <slot />
     </section>
   </article>

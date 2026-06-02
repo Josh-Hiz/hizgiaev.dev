@@ -1,56 +1,74 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Availability from "../components/Availability.astro";
-import WarpBackground from "../components/backgrounds/Warp";
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Availability from '../components/Availability.astro';
+import WarpBackground from '../components/backgrounds/Warp';
 ---
-
 <BaseLayout>
-	<main>
-		<div
-			class="group relative w-full min-h-dvh flex items-center justify-center"
-		>
-			<div class="absolute w-full h-dvh -z-10">
-				<WarpBackground
-					color1="#09090b"
-					color2="#27272a"
-					color3="#52525b"
-					speed={0.6}
-					swirl={0.5}
-					swirlIterations={10}
-					shapeScale={0.3}
-					client:load
-				/>
-			</div>
+  <!--
+    The homepage is fully static — no server data needed.
+    WarpBackground uses client:load here (the homepage hero) which is correct:
+    it's the primary visual so immediate hydration is warranted.
+  -->
+  <main>
+    <div class="group relative w-full min-h-dvh flex items-center justify-center">
 
-			<div
-				class="p-4 sm:p-8 absolute w-full h-dvh flex flex-col justify-between z-10"
-			>
-				<div>
-					<h1
-						class="text-white text-8xl font-bold text-balance md:text-[120px] lg:text-[160px] tracking-tighter"
-					>
-						Joshua <br /> Hizgiaev
-					</h1>
-				</div>
+      <!-- Background shader layer -->
+      <div class="absolute inset-0 -z-10">
+        <WarpBackground
+          colors={['#14120f', '#d07a01', '#f0edea']}
+          speed={0.6}
+          swirl={0.5}
+          swirlIterations={10}
+          client:load
+        />
+      </div>
 
-				<div>
-					<Availability />
-					<div class="mb-2 sm:mb-4 flex items-center justify-between">
-						<div class="flex items-center gap-4">
-							<a
-								href="mailto:jhizgiaev2704@gmail.com"
-								class="w-fit text-base sm:text-2xl px-5 py-2 rounded-full transition-all duration-300 ease-in-out whitespace-nowrap text-zinc-900 bg-zinc-100 hover:outline-2 outline-offset-2 outline-zinc-100 cursor-po"
-								>Contact me</a
-							>
-							<a
-								href="/about"
-								class="w-fit text-base sm:text-2xl px-5 py-2 rounded-full transition-all duration-300 ease-in-out whitespace-nowrap text-zinc-100 hover:text-white bg-transparent hover:bg-zinc-100/20 hover:outline-2 outline-offset-2 outline-zinc-100/20"
-								>See more</a
-							>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</main>
+      <!-- Foreground content -->
+      <div class="p-4 sm:p-8 absolute inset-0 flex flex-col justify-between z-10">
+
+        <!-- Name — responsive scale: starts at 5xl (48px) on the smallest
+             screens (360px) so it doesn't overflow, scales up through 8xl
+             and beyond on larger viewports. -->
+        <div>
+          <h1
+            class="text-white font-bold text-balance
+                   text-5xl sm:text-8xl md:text-[120px] lg:text-[160px]
+                   tracking-tighter"
+          >
+            Joshua <br /> Hizgiaev
+          </h1>
+        </div>
+
+        <!-- Bottom CTA row -->
+        <div>
+          <Availability />
+          <div class="mb-2 sm:mb-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <a
+                href="mailto:jhizgiaev2704@gmail.com"
+                class="w-fit text-base sm:text-2xl px-5 py-2 rounded-full
+                       transition-all duration-300 ease-in-out whitespace-nowrap
+                       text-zinc-900 bg-zinc-100
+                       hover:outline-2 outline-offset-2 outline-zinc-100
+                       cursor-pointer"
+              >
+                Contact me
+              </a>
+              <a
+                href="/about"
+                class="w-fit text-base sm:text-2xl px-5 py-2 rounded-full
+                       transition-all duration-300 ease-in-out whitespace-nowrap
+                       text-zinc-100 hover:text-white bg-transparent
+                       hover:bg-zinc-100/20
+                       hover:outline-2 outline-offset-2 outline-zinc-100/20"
+              >
+                See more
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
 </BaseLayout>

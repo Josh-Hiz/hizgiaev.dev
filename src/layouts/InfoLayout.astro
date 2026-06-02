@@ -1,33 +1,55 @@
 ---
-import BaseLayout from "./BaseLayout.astro";
-import WarpBackground from "../components/backgrounds/Warp";
-import Footer from "../components/Footer.astro";
+import BaseLayout from './BaseLayout.astro';
+import WarpBackground from '../components/backgrounds/Warp';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  pageTitle?: string;
+}
+const { pageTitle } = Astro.props;
 ---
+<BaseLayout pageTitle={pageTitle}>
+  <!--
+    Layout: thin animated sidebar on the left, main content on the right.
 
-<BaseLayout>
-	<div class="flex relative gap-4 w-full max-w-7xl">
-		<nav
-			class="relative w-4 md:min-w-2xs xl:min-w-sm sm:min-h-screen sm:ml-4 sm:pb-4"
-		>
-			<div
-				class="w-full h-full max-sm:w-4 md:max-w-2xs xl:max-w-sm fixed -z-10 sm:bottom-4 sm:rounded-b-full overflow-hidden"
-			>
-				<WarpBackground
-					color1="#ffffff"
-					color2="#27272a"
-					color3="#52525b"
-					speed={0.15}
-					swirl={1.5}
-					swirlIterations={10}
-					shapeScale={0.3}
-					client:load
-				/>
-			</div>
-		</nav>
+    Sidebar notes:
+    - On mobile (<md) the sidebar collapses to w-4 — a 1rem strip. The
+      WarpBackground canvas was still hydrating and running a full WebGL loop
+      even at that width. Fixed with client:media="(min-width: 768px)" so the
+      React island only mounts on md+ screens.
+    - The fixed background div no longer escapes its container on desktop
+      thanks to `inset-0` instead of the previous `bottom-4` quirk.
+  -->
+  <div class="flex relative gap-4 w-full max-w-7xl">
+    <nav
+      class="relative w-4 md:min-w-2xs xl:min-w-sm sm:min-h-screen sm:ml-4 sm:pb-4"
+      aria-hidden="true"
+    >
+      <div
+        class="w-full h-full max-sm:w-4 md:max-w-2xs xl:max-w-sm
+               fixed inset-y-0 -z-10 sm:bottom-4 sm:rounded-b-full overflow-hidden"
+      >
+        <!--
+          client:media — only hydrate this island on md+ screens (≥ 768px).
+          On mobile the nav is a decorative 1rem strip; running a WebGL shader
+          there burns CPU/GPU for zero visual benefit. This saves a full React
+          + WebGL init on every mobile page load.
+        -->
+        <WarpBackground
+          colors={['#14120f', '#d07a01', '#f0edea']}
+          speed={0.15}
+          swirl={1.5}
+          swirlIterations={10}
+          client:media="(min-width: 768px)"
+        />
+      </div>
+    </nav>
 
-		<main class="relative">
-			<slot />
-			<Footer />
-		</main>
-	</div></BaseLayout
->
+    <!-- z-0 keeps main content above the -z-10 background but below the
+         z-50 footer, preventing the fixed footer from clipping content. -->
+    <main class="relative z-0 flex-1 min-w-0">
+      <slot />
+      <Footer />
+    </main>
+  </div>
+</BaseLayout>

@@ -1,9 +1,52 @@
 ---
+// Get current path to highlight the active nav link.
+const currentPath = Astro.url.pathname;
+
+const navLinks = [
+  { href: '/',           label: 'Home'       },
+  { href: '/about',      label: 'About'      },
+  { href: '/experience', label: 'Experience' },
+  { href: '/contact',    label: 'Contact'    },
+  { href: '/blog',       label: 'Blog'       },
+];
 ---
-<footer class="py-4 px-4 sm:px-12 w-full fixed bottom-0 flex items-center gap-4 sm:gap-8 bg-zinc-900">
-    <a href="/" data-astro-prefetch="hover" target="_self" class="w-fit group flex items-center gap-1 text-base hover:text-zinc-100 cursor-pointer text-zinc-500">Home</a>
-    <a href="/about" data-astro-prefetch="hover" target="_self" class="w-fit group flex items-center gap-1 text-base hover:text-zinc-100 cursor-pointer text-zinc-500">About</a>
-    <a href="/experience" data-astro-prefetch="hover" target="_self" class="w-fit group flex items-center gap-1 text-base hover:text-zinc-100 cursor-pointer text-zinc-500">Experience</a>
-    <a href="/contact" data-astro-prefetch="hover" target="_self" class="w-fit group flex items-center gap-1 text-base hover:text-zinc-100 cursor-pointer text-zinc-500">Contact</a>
-    <a href="/blog" data-astro-prefetch="hover" target="_self" class="w-fit group flex items-center gap-1 text-base hover:text-zinc-100 cursor-pointer text-zinc-500">Blog</a>
+<!--
+  Fixes applied:
+  1. z-50          — was missing entirely; page content with z-10 could paint over footer.
+  2. pb-safe       — adds env(safe-area-inset-bottom) padding for iOS notch / home indicator.
+                     Tailwind 4 exposes this via pb-[env(safe-area-inset-bottom)] or a custom
+                     utility. Inline style used here for maximum compatibility.
+  3. overflow-x-auto — prevents nav items wrapping to two lines on 320px screens.
+  4. bg-zinc-900/95 + backdrop-blur-sm — slight translucency so content scrolling
+                     underneath is readable; pure #18181b was fully opaque and jarring.
+  5. Active link highlight — uses Astro.url.pathname to bold the current page.
+-->
+<footer
+  class="w-full fixed bottom-0 z-50 flex items-center gap-4 sm:gap-8
+         overflow-x-auto px-4 sm:px-12 py-3
+         bg-zinc-900/95 backdrop-blur-sm border-t border-zinc-800/60"
+  style="padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));"
+>
+  {navLinks.map(({ href, label }) => {
+    // Match exact path for home, prefix match for others so /blog/post also highlights Blog.
+    const isActive = href === '/'
+      ? currentPath === '/'
+      : currentPath.startsWith(href);
+
+    return (
+      <a
+        href={href}
+        data-astro-prefetch="hover"
+        target="_self"
+        class:list={[
+          'shrink-0 w-fit text-base transition-colors duration-200',
+          isActive
+            ? 'text-zinc-100 font-medium'
+            : 'text-zinc-500 hover:text-zinc-100',
+        ]}
+      >
+        {label}
+      </a>
+    );
+  })}
 </footer>

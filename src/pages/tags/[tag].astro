@@ -1,28 +1,73 @@
 ---
 import InfoLayout from '../../layouts/InfoLayout.astro';
-import BlogPost from '../../components/BlogPost.astro'
-export const prerender = true
-export async function getStaticPaths() {
-    const allPosts = Object.values(import.meta.glob('../posts/*.md', { eager: true }));
-    const uniqueTags = [...new Set(allPosts.map((post: any) => post.frontmatter.tags).flat())];
-    return uniqueTags.map((tag) => {
-        const filteredPosts = allPosts.filter((post: any) => post.frontmatter.tags.includes(tag));
-        return {
-            params: { tag },
-            props: { posts: filteredPosts }
-        };
-    });
+import BlogPost from '../../components/BlogPost.astro';
+
+interface PostFrontmatter {
+  title:   string;
+  pubDate: string;
+  tags?:   string[];
 }
-const { tag } = Astro.params;
-const { posts } = Astro.props;
+
+interface Post {
+  url:         string;
+  frontmatter: PostFrontmatter;
+}
+
+export async function getStaticPaths() {
+  const allPosts = Object.values(
+    import.meta.glob<Post>('../posts/*.md', { eager: true }),
+  );
+
+  // Guard against posts without tags — prevents flat/filter crash at build time.
+  const uniqueTags = [
+    ...new Set(
+      allPosts.flatMap((post) => post.frontmatter?.tags ?? []).filter(Boolean),
+    ),
+  ];
+
+  return uniqueTags.map((tag) => {
+    const filteredPosts = allPosts
+      .filter((post) => post.frontmatter?.tags?.includes(tag))
+      // Sort newest-first within each tag page
+      .sort(
+        (a, b) =>
+          new Date(b.frontmatter.pubDate).getTime() -
+          new Date(a.frontmatter.pubDate).getTime(),
+      );
+
+    return {
+      params: { tag },
+      props:  { posts: filteredPosts },
+    };
+  });
+}
+
+const { tag }   = Astro.params;
+const { posts } = Astro.props as { posts: Post[] };
 ---
-<InfoLayout pageTitle={tag}>
-    <div class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col justify-between gap-32">
-        <div class="space-y-4 sm:space-y-12">
-            <h1 class="text-white font-bold text-balance text-4xl md:text-6xl xl:text-8xl tracking-tight">Blog posts by tag '{tag}'</h1>
-            <ul>
-                {posts.map((post: any) => <BlogPost url={post.url} title={post.frontmatter.title}/>)}
-            </ul>
-        </div>
+
+<InfoLayout pageTitle={`#${tag}`}>
+  <div
+    class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col
+           justify-between gap-16 sm:gap-32"
+  >
+    <div class="space-y-4 sm:space-y-12">
+      <h1
+        class="text-white font-bold text-balance
+               text-4xl md:text-6xl xl:text-8xl tracking-tight"
+      >
+        Posts tagged <span class="text-zinc-400">#{tag}</span>
+      </h1>
+
+      {posts.length === 0 ? (
+        <p class="text-zinc-500 text-lg">No posts found for this tag.</p>
+      ) : (
+        <ul class="divide-y divide-zinc-800">
+          {posts.map((post) => (
+            <BlogPost url={post.url} title={post.frontmatter.title} />
+          ))}
+        </ul>
+      )}
     </div>
+  </div>
 </InfoLayout>
