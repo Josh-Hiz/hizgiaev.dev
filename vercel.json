@@ -1,12 +1,6 @@
 {
   "headers": [
     {
-      "comment": "Rules for /_astro/* and static file extensions have been removed.",
-      "comment2": "@astrojs/vercel in static mode already sets immutable cache headers",
-      "comment3": "on all bundled assets via Vercel's build output spec. Duplicating",
-      "comment4": "them here can cause rule conflicts and inflated header payloads."
-    },
-    {
       "source": "/(.*)\\.(xml|json|webmanifest|txt|rss)",
       "headers": [
         { "key": "Cache-Control",        "value": "public, max-age=0, must-revalidate" },
