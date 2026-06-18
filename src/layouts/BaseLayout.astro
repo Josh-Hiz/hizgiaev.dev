@@ -10,7 +10,7 @@ const { pageTitle, pageDescription } = Astro.props;
 
 const defaultPageTitle   = 'Hizgiaev.dev';
 const defaultDescription =
-  'Interested in quantitative development, software engineering, research, computer architectures, HPC, and many more.';
+  'Interested in quantitative development, software engineering, quantitative research, computer architectures, HPC, and many more.';
 
 const title       = pageTitle       ?? defaultPageTitle;
 const description = pageDescription ?? defaultDescription;
@@ -33,19 +33,6 @@ const description = pageDescription ?? defaultDescription;
     <link rel="manifest" href="/site.webmanifest" />
 
     <title>{title}</title>
-
-    <!--
-      Removed: the KaTeX CDN <link> that was here on every page.
-      It was a render-blocking cross-origin stylesheet loaded even on pages
-      with no math content. It now lives in BlogLayout.astro so it is only
-      fetched when actually rendering a blog post.
-
-      Removed: <Font cssVariable="--font-geist" preload />
-      Fonts are bundled via @fontsource in global.css instead.
-    -->
-
-    <!-- Head slot: child layouts (e.g. BlogLayout) can inject page-specific
-         <link>, <meta>, or <script> tags here without forking BaseLayout. -->
     <slot name="head" />
 
     <ClientRouter />

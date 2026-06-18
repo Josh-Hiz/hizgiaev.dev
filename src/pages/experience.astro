@@ -1,16 +1,12 @@
 ---
 import InfoLayout from '../layouts/InfoLayout.astro';
 
-// With output:'static' (now the default) this is prerendered automatically.
-// No need for an explicit export, but left here as self-documentation.
-// export const prerender = true;
-
 const pageTitle = 'Experience & Skills';
 
 interface SkillItem { label: string }
 
 const languages: string[] = [
-  'C++', 'C', 'C#', 'Java', 'Python', 'SQL', 'JavaScript', 'R',
+  'C/C++', 'C#', 'Java', 'Python', 'SQL', 'JavaScript', 'R',
 ];
 
 const technologies: string[] = [
@@ -20,7 +16,7 @@ const technologies: string[] = [
 ];
 
 const itStack: string[] = [
-  'Microsoft Windows', 'macOS', 'Linux (Ubuntu, Debian, Arch)',
+  'Microsoft Windows', 'macOS', 'Linux',
   'Azure DevOps Server', 'Ubuntu Server', 'VMware', 'Parallels Desktop',
 ];
 
@@ -34,16 +30,28 @@ interface ExperienceEntry {
 
 const experience: ExperienceEntry[] = [
   {
-    title: 'Quantitative Developer Intern',
+    title: 'C++ Software Engineer',
+    org:   'Trexquant • New York City, NY',
+    date:  'Aug 2026 - Present',
+    iso:   ['2026-08', ''],
+  },
+  {
+    title: 'Quantitative Analyst | Head of Multi-Factor Model Development',
+    org:   'Stevens Student Managed Investment Fund • Hoboken, NJ',
+    date:  'Sep 2025 - May 2026',
+    iso:   ['2025-09', '2026-05'],
+  },
+  {
+    title: 'Teaching Assistant',
+    org:   'Stevens Institute of Technology • Hoboken, NJ',
+    date:  'Jan 2023 - Dec 2025',
+    iso:   ['2023-01', '2025-12'],
+  },
+  {
+    title: 'Software Engineer Intern',
     org:   'Quantifi • New York City, NY',
     date:  'May 2025 - Aug 2025',
     iso:   ['2025-05', '2025-08'],
-  },
-  {
-    title: 'Quantitative Analyst',
-    org:   'Stevens Student Managed Investment Fund • Hoboken, NJ',
-    date:  'Jan 2025 - Present',
-    iso:   ['2025-01', ''],
   },
   {
     title: 'Software Engineer Intern',
@@ -51,24 +59,18 @@ const experience: ExperienceEntry[] = [
     date:  'May 2024 - Aug 2024',
     iso:   ['2024-05', '2024-08'],
   },
-  {
-    title: 'Summer Research Intern',
-    org:   'Stevens Institute of Artificial Intelligence • Hoboken, NJ',
-    date:  'Jun 2023 - Aug 2023',
-    iso:   ['2023-06', '2023-08'],
-  },
-  {
-    title: 'Undergraduate Research Assistant',
-    org:   'Stevens Institute of Technology • Hoboken, NJ',
-    date:  'Apr 2023 - Aug 2023',
-    iso:   ['2023-04', '2023-08'],
-  },
-  {
-    title: 'Teaching Assistant',
-    org:   'Stevens Institute of Technology • Hoboken, NJ',
-    date:  'Jan 2023 - Present',
-    iso:   ['2023-01', ''],
-  },
+  // {
+  //   title: 'Summer Research Intern',
+  //   org:   'Stevens Institute of Artificial Intelligence • Hoboken, NJ',
+  //   date:  'Jun 2023 - Aug 2023',
+  //   iso:   ['2023-06', '2023-08'],
+  // },
+  // {
+  //   title: 'Undergraduate Research Assistant',
+  //   org:   'Stevens Institute of Technology • Hoboken, NJ',
+  //   date:  'Apr 2023 - Aug 2023',
+  //   iso:   ['2023-04', '2023-08'],
+  // },
 ];
 ---
 
@@ -178,24 +180,24 @@ const experience: ExperienceEntry[] = [
             </span>
           </div>
 
-          <p class="text-zinc-500 mt-1">GPA: 3.95 / 4.0</p>
+          <p class="text-zinc-500 mt-1">GPA: 3.96/4.0 | Graduated with Highest Honors</p>
 
           <div class="mt-3 grid gap-3">
             <p class="text-zinc-400">
               <span class="text-zinc-300">Coursework:</span>{' '}
-              Computer Architecture, Algorithms, Data Structures, Operating
-              Systems, Deep Learning, Linear Algebra, Probability & Statistics,
-              Modern Algebra, Theory of Computation, Multivariable Calculus
+              Computer Architecture, Operating Systems, Systems Programming, 
+              Concurrent Programming, Parallel and GPU Programming, Data Structures and Algorithms, 
+              Advanced Programming in the UNIX Environment, TCP/IP Networking, Deep Learning
             </p>
             <p class="text-zinc-400">
               <span class="text-zinc-300">Awards:</span>{' '}
-              Reno A. Del Ben 1958 Endowed Scholarship; Dean's List (2022-2025);
+              Summa Cum Laude, Reno A. Del Ben 1958 Endowed Scholarship; Dean's List (All semesters);
               Edwin A. Stevens Scholarship
             </p>
             <p class="text-zinc-400">
               <span class="text-zinc-300">Activities:</span>{' '}
               Stevens Computer Science Club, Stevens Linux User Group,
-              Stevens Blueprint, Stevens Math Club
+              Stevens Association of Mathematical Sciences, Stevens Student Managed Investment Fund
             </p>
           </div>
         </div>

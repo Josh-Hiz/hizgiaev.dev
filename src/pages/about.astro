@@ -1,20 +1,9 @@
 ---
 import InfoLayout from '../layouts/InfoLayout.astro';
 ---
-<!--
-  Changes:
-  - gap-32 → gap-16 sm:gap-32  — 128px gap between sections was too tall on
-    mobile (375px) where the user had to scroll through a lot of empty space.
-    16 (64px) on mobile, 32 (128px) on sm+ is visually balanced on all screens.
-  - Wrapped achievements list in a <time> element for each entry so screen
-    readers and search engines can parse the dates correctly.
-  - Fixed typo: "architecure" → "architecture"
--->
 <InfoLayout pageTitle="About">
   <div
-    class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col
-           justify-between gap-16 sm:gap-32"
-  >
+    class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col justify-between gap-16 sm:gap-32">
     <div class="space-y-4 sm:space-y-12">
       <h1
         class="text-white font-bold text-balance
@@ -24,23 +13,22 @@ import InfoLayout from '../layouts/InfoLayout.astro';
       </h1>
 
       <p class="text-xl xl:text-2xl text-zinc-500 text-balance">
-        Welcome! I am a graduating senior computer science student at
+        Welcome! I am a new-graduate computer science student at
         Stevens Institute of Technology.
       </p>
 
       <p class="text-xl xl:text-2xl text-zinc-500 text-balance">
         I am a self-taught programmer and my current interests include
-        high-performance computing, computer architectures, GPU
-        computing, low-latency architecture, high-performance C++/Python,
-        and many more.
+        high-performance computing, computer architectures, GPU programming, 
+        parallelism, C++, high-frequency trading, algorithms, and performance engineering.
       </p>
 
       <p class="text-xl xl:text-2xl text-zinc-500 text-balance">
         My most recent professional experiences include being a Software
         Engineer intern at PanAgora Asset Management and as Quantitative
-        Developer Intern at Quantifi, Inc., working on low-latency
-        financial derivatives pricing and tools as well as Quantifi C#
-        core development.
+        Developer Intern at Quantifi. After graduating from Stevens, I am
+        excited to say I will be a C++ Software Engineer at Trexquant! Working on
+        high-performance AI infrastructure and low-latency trading systems.
       </p>
     </div>
 
@@ -52,10 +40,11 @@ import InfoLayout from '../layouts/InfoLayout.astro';
       </h2>
 
       <ul class="px-4 text-zinc-400 list-disc list-outside space-y-1">
+        <li><time datetime="2026-06-11">06/11/2026</time>: Joined Trexquant as a C++ Software Engineer</li>
         <li><time datetime="2025-08-20">08/20/2025</time>: My new website goes live</li>
         <li>
           <time datetime="2025-05-29">05/29/2025</time>: Joined Quantifi as a
-          Quantitative Developer Intern
+          Software Engineer Intern
         </li>
         <li>
           <time datetime="2025-01-29">01/29/2025</time>: Accepted into Stevens
@@ -64,14 +53,6 @@ import InfoLayout from '../layouts/InfoLayout.astro';
         <li>
           <time datetime="2024-05-27">05/27/2024</time>: Joined PanAgora Asset
           Management as a Software Engineer Intern
-        </li>
-        <li>
-          <time datetime="2023-09-15">09/15/2023</time>: Illuminatio Development
-          Group is created
-        </li>
-        <li>
-          <time datetime="2023-08-14">08/14/2023</time>: My undergraduate
-          research at SIAI has ended
         </li>
       </ul>
     </div>
