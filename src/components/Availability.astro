@@ -1,23 +1,9 @@
 ---
-// No layout changes — this component was already correct and responsive.
-// Added aria-live="polite" so screen readers announce the availability status
-// when it changes (e.g. if it's conditionally rendered by a parent).
 ---
-<div
-  class="flex items-center gap-2 py-4"
-  aria-live="polite"
-  role="status"
->
-  <!-- Pulsing availability indicator -->
+<div class="flex items-center gap-2 py-4" role="status" aria-live="polite">
   <span class="relative flex items-center justify-center size-3" aria-hidden="true">
-    <span
-      class="absolute inline-flex h-full w-full animate-ping duration-1000
-             rounded-full bg-zinc-100 opacity-75"
-    ></span>
+    <span class="absolute inline-flex h-full w-full animate-ping duration-1000 rounded-full bg-zinc-100 opacity-75"></span>
     <span class="relative inline-flex size-2 rounded-full bg-zinc-100"></span>
   </span>
-
-  <p class="text-zinc-300">
-    Looking for full-time opportunities!
-  </p>
+  <p class="text-zinc-300">Looking for full-time opportunities!</p>
 </div>

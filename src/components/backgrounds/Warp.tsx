@@ -1,34 +1,70 @@
+import { useEffect, useRef, useState } from 'react';
 import { Warp, type WarpProps } from '@paper-design/shaders-react';
-
-// API changed in 0.0.76:
-//   color1/color2/color3  →  colors: string[]   (up to 4 colors)
-//   New props: proportion, softness, shape, distortion
-//   Removed: color1, color2, color3, shapeScale (now just scale inside sizing)
-//
-// Docs: https://paper-design-shaders-16.mintlify.app/shaders/warp
 
 export interface WarpBackgroundProps extends Omit<WarpProps, 'style'> {
   style?: React.CSSProperties;
+  /** Stop rendering when the canvas scrolls fully out of view. */
+  pauseWhenOffscreen?: boolean;
 }
 
-export default function WarpBackground({ style, ...props }: WarpBackgroundProps) {
+/**
+ * WebGL warp background tuned for low cost:
+ * - caps render resolution (maxPixelCount / minPixelRatio) so high-DPI and large
+ *   screens don't render millions of extra fragments for a blurred backdrop
+ * - honors prefers-reduced-motion by freezing to a static frame (speed 0 halts
+ *   the render loop entirely)
+ * - pauses while scrolled offscreen; the library already pauses on tab-hidden
+ */
+export default function WarpBackground({
+  style,
+  speed = 0.4,
+  swirl = 0.8,
+  swirlIterations = 6,
+  proportion = 0.45,
+  softness = 1,
+  distortion = 0.25,
+  pauseWhenOffscreen = true,
+  ...props
+}: WarpBackgroundProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [onscreen, setOnscreen] = useState(true);
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setReduceMotion(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!pauseWhenOffscreen || !el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setOnscreen(entry?.isIntersecting ?? true),
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [pauseWhenOffscreen]);
+
+  const effectiveSpeed = reduceMotion || !onscreen ? 0 : speed;
+
   return (
-    <Warp
-      // Sensible defaults — all overridable by the caller via spread.
-      speed={0.4}
-      swirl={0.8}
-      swirlIterations={10}
-      proportion={0.45}
-      softness={1}
-      distortion={0.25}
-      // display:block removes the ~4px inline-block gap beneath the canvas.
-      style={{
-        display: 'block',
-        width:   '100%',
-        height:  '100%',
-        ...style,
-      }}
-      {...props}
-    />
+    <div ref={ref} style={{ display: 'block', width: '100%', height: '100%', ...style }}>
+      <Warp
+        speed={effectiveSpeed}
+        swirl={swirl}
+        swirlIterations={swirlIterations}
+        proportion={proportion}
+        softness={softness}
+        distortion={distortion}
+        minPixelRatio={1}
+        maxPixelCount={1_200_000}
+        webGlContextAttributes={{ antialias: false, powerPreference: 'low-power' }}
+        style={{ display: 'block', width: '100%', height: '100%' }}
+        {...props}
+      />
+    </div>
   );
 }

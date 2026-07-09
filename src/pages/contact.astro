@@ -3,14 +3,7 @@ import InfoLayout from '../layouts/InfoLayout.astro';
 
 const pageTitle = 'Contact';
 ---
-<!--
-  Changes:
-  - Wrapped location lines in <address> — the correct semantic element for
-    contact/location information; improves SEO and screen reader output.
-  - Added aria-label to social links that already have visible text (redundant
-    but harmless) and to icon-only links that need it.
-  - No layout changes needed — this page was already fully responsive.
--->
+
 <InfoLayout pageTitle={pageTitle}>
   <div class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col justify-between">
 

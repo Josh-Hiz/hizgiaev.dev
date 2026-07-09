@@ -3,68 +3,51 @@ import InfoLayout from '../../layouts/InfoLayout.astro';
 import BlogPost from '../../components/BlogPost.astro';
 
 interface PostFrontmatter {
-  title:   string;
+  title: string;
   pubDate: string;
-  tags?:   string[];
+  tags?: string[];
 }
 
 interface Post {
-  url:         string;
+  url: string;
   frontmatter: PostFrontmatter;
 }
 
 export async function getStaticPaths() {
-  const allPosts = Object.values(
-    import.meta.glob<Post>('../posts/*.md', { eager: true }),
-  );
+  const allPosts = Object.values(import.meta.glob<Post>('../posts/*.md', { eager: true }));
 
-  // Guard against posts without tags — prevents flat/filter crash at build time.
   const uniqueTags = [
-    ...new Set(
-      allPosts.flatMap((post) => post.frontmatter?.tags ?? []).filter(Boolean),
-    ),
+    ...new Set(allPosts.flatMap((post) => post.frontmatter?.tags ?? []).filter(Boolean)),
   ];
 
   return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts
+    const posts = allPosts
       .filter((post) => post.frontmatter?.tags?.includes(tag))
-      // Sort newest-first within each tag page
       .sort(
         (a, b) =>
-          new Date(b.frontmatter.pubDate).getTime() -
-          new Date(a.frontmatter.pubDate).getTime(),
+          new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime(),
       );
-
-    return {
-      params: { tag },
-      props:  { posts: filteredPosts },
-    };
+    return { params: { tag }, props: { posts } };
   });
 }
 
-const { tag }   = Astro.params;
+const { tag } = Astro.params;
 const { posts } = Astro.props as { posts: Post[] };
 ---
 
 <InfoLayout pageTitle={`#${tag}`}>
-  <div
-    class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col
-           justify-between gap-16 sm:gap-32"
-  >
+  <div class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col gap-16 sm:gap-32">
     <div class="space-y-4 sm:space-y-12">
-      <h1
-        class="text-white font-bold text-balance
-               text-4xl md:text-6xl xl:text-8xl tracking-tight"
-      >
+      <h1 class="text-white font-bold text-balance text-4xl md:text-6xl xl:text-8xl tracking-tight">
         Posts tagged <span class="text-zinc-400">#{tag}</span>
       </h1>
 
       {posts.length === 0 ? (
         <p class="text-zinc-500 text-lg">No posts found for this tag.</p>
       ) : (
-        <ul class="divide-y divide-zinc-800">
+        <ul>
           {posts.map((post) => (
-            <BlogPost url={post.url} title={post.frontmatter.title} />
+            <BlogPost url={post.url} title={post.frontmatter.title} pubDate={post.frontmatter.pubDate} />
           ))}
         </ul>
       )}
