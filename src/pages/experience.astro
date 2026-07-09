@@ -6,19 +6,26 @@ const pageTitle = 'Experience & Skills';
 interface SkillItem { label: string }
 
 const languages: string[] = [
-  'C/C++', 'C#', 'Java', 'Python', 'SQL', 'JavaScript', 'R',
+  'C++17/20/23', 'Python', 'C#', 'Java', 'JavaScript', 'SQL'
 ];
 
-const technologies: string[] = [
-  '.NET', 'ASP.NET', 'Microsoft SQL Server', 'CLion', 'Docker',
-  'Microsoft Azure', 'Apache Spark', 'MongoDB', 'HuggingFace',
-  'OpenAI', 'DeepSeek', 'TensorFlow', 'Jupyter Notebook',
+const systemsperf: string[] = [
+  'Linux', 'CUDA', 'OpenMP', 'Boost', 'WebSockets', 'pybind11', 'NVIDIA CUPTI', 'GDB', 'Valgrind'
 ];
 
-const itStack: string[] = [
-  'Microsoft Windows', 'macOS', 'Linux',
-  'Azure DevOps Server', 'Ubuntu Server', 'VMware', 'Parallels Desktop',
+const tools: string[] = [
+  'CMake', 'Ninja', 'GCC/G++', 'Clang/LLVM', 'Git', 'Docker', 'OpenSSH', 'Bash', 'NUnit'
+]
+
+const libraries: string[] = [
+  'NumPy', 'Pandas', 'SciPy', 'scikit-learn', 'PyTorch', 'ClickHouse', 'PostgreSQL', 'PySpark', 'TensorFlow'
+]
+
+const backend: string[] = [
+  '.NET', 'ASP.NET', 'Microsoft Azure', 'Microsoft SQL Server', 'MongoDB', 'Apache Spark'
 ];
+
+
 
 interface ExperienceEntry {
   title: string;
@@ -59,18 +66,18 @@ const experience: ExperienceEntry[] = [
     date:  'May 2024 - Aug 2024',
     iso:   ['2024-05', '2024-08'],
   },
-  // {
-  //   title: 'Summer Research Intern',
-  //   org:   'Stevens Institute of Artificial Intelligence • Hoboken, NJ',
-  //   date:  'Jun 2023 - Aug 2023',
-  //   iso:   ['2023-06', '2023-08'],
-  // },
-  // {
-  //   title: 'Undergraduate Research Assistant',
-  //   org:   'Stevens Institute of Technology • Hoboken, NJ',
-  //   date:  'Apr 2023 - Aug 2023',
-  //   iso:   ['2023-04', '2023-08'],
-  // },
+  {
+    title: 'Summer AI Research Assistant',
+    org:   'Stevens Institute of Artificial Intelligence • Hoboken, NJ',
+    date:  'Jun 2023 - Aug 2023',
+    iso:   ['2023-06', '2023-08'],
+  },
+  {
+    title: 'Undergraduate Research Assistant',
+    org:   'Stevens Institute of Technology • Hoboken, NJ',
+    date:  'Apr 2023 - Aug 2023',
+    iso:   ['2023-04', '2023-08'],
+ },
 ];
 ---
 
@@ -141,8 +148,8 @@ const experience: ExperienceEntry[] = [
                 </h3>
                 <span class="text-sm text-zinc-500 sm:whitespace-nowrap shrink-0">
                   {iso[1]
-                    ? <><time datetime={iso[0]}>{date.split('-')[0].trim()}</time>{' - '}<time datetime={iso[1]}>{date.split('-')[1]?.trim()}</time></>
-                    : <><time datetime={iso[0]}>{date.split('-')[0].trim()}</time>{' - Present'}</>
+                    ? <><time datetime={iso[0]}>{date.split('-')[0]?.trim()}</time>{' - '}<time datetime={iso[1]}>{date.split('-')[1]?.trim()}</time></>
+                    : <><time datetime={iso[0]}>{date.split('-')[0]?.trim()}</time>{' - Present'}</>
                   }
                 </span>
               </div>
@@ -190,9 +197,9 @@ const experience: ExperienceEntry[] = [
               Advanced Programming in the UNIX Environment, TCP/IP Networking, Deep Learning
             </p>
             <p class="text-zinc-400">
-              <span class="text-zinc-300">Awards:</span>{' '}
-              Summa Cum Laude, Reno A. Del Ben 1958 Endowed Scholarship; Dean's List (All semesters);
-              Edwin A. Stevens Scholarship
+              <span class="text-zinc-300">Honors:</span>{' '}
+              Summa Cum Laude, Reno A. Del Ben 1958 Endowed Scholarship; Dean's List (2022-2026);
+              Edwin A. Stevens Scholarship, Rhodes Scholar Nominee, Marshall Scholar Nominee
             </p>
             <p class="text-zinc-400">
               <span class="text-zinc-300">Activities:</span>{' '}
@@ -216,8 +223,10 @@ const experience: ExperienceEntry[] = [
         {(
           [
             { heading: 'Languages',    items: languages    },
-            { heading: 'Technologies', items: technologies },
-            { heading: 'IT',           items: itStack      },
+            { heading: 'Systems & Performance', items: systemsperf },
+            { heading: 'Tools',           items: tools      },
+            { heading: 'Libraries',           items: libraries      },
+            { heading: 'Backend & Cloud',           items: backend      },
           ] as const
         ).map(({ heading, items }) => (
           <div
