@@ -25,7 +25,14 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  integrations: [react(), playformCompress()],
+  integrations: [
+    react(),
+    // csso (used by this integration) can't parse Tailwind v4's media-query
+    // range syntax `@media (width >= 40rem)` and silently drops those rules,
+    // which kills every responsive utility. Vite/lightningcss already minifies
+    // CSS, so leave CSS to it and let this handle the rest.
+    playformCompress({ CSS: false }),
+  ],
 
   adapter: vercel({
     webAnalytics: { enabled: true },
