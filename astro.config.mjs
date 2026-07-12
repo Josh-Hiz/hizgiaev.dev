@@ -13,9 +13,6 @@ export default defineConfig({
   prefetch: true,
   output: 'static',
 
-  // Astro 7's default Markdown engine (Sätteri) doesn't run remark/rehype
-  // plugins. The unified() processor keeps the classic remark pipeline the
-  // existing posts were written against and enables LaTeX math via KaTeX.
   markdown: {
     processor: unified({
       remarkPlugins: [remarkMath],

@@ -1,45 +1,30 @@
 ---
-import InfoLayout from '../../layouts/InfoLayout.astro';
-import BlogPost from '../../components/BlogPost.astro';
-
-interface PostFrontmatter {
-  title: string;
-  pubDate: string;
-  tags?: string[];
-}
-
-interface Post {
-  url: string;
-  frontmatter: PostFrontmatter;
-}
+import { getCollection } from 'astro:content';
+import InfoLayout from '@layouts/InfoLayout.astro';
+import BlogPost from '@components/BlogPost.astro';
+import { slugifyTag, uniqueTags } from '@lib/tags';
 
 export async function getStaticPaths() {
-  const allPosts = Object.values(import.meta.glob<Post>('../posts/*.md', { eager: true }));
+  const allPosts = await getCollection('blog');
+  const tags = uniqueTags(allPosts.map((post) => post.data.tags));
 
-  const uniqueTags = [
-    ...new Set(allPosts.flatMap((post) => post.frontmatter?.tags ?? []).filter(Boolean)),
-  ];
-
-  return uniqueTags.map((tag) => {
+  return tags.map((tag) => {
     const posts = allPosts
-      .filter((post) => post.frontmatter?.tags?.includes(tag))
-      .sort(
-        (a, b) =>
-          new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime(),
-      );
-    return { params: { tag }, props: { posts } };
+      .filter((post) => post.data.tags.includes(tag))
+      .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+    return { params: { tag: slugifyTag(tag) }, props: { label: tag, posts } };
   });
 }
 
-const { tag } = Astro.params;
-const { posts } = Astro.props as { posts: Post[] };
+const { label, posts } = Astro.props;
 ---
 
-<InfoLayout pageTitle={`#${tag}`}>
+<InfoLayout pageTitle={`#${label}`}>
   <div class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col gap-16 sm:gap-32">
     <div class="space-y-4 sm:space-y-12">
       <h1 class="text-white font-bold text-balance text-4xl md:text-6xl xl:text-8xl tracking-tight">
-        Posts tagged <span class="text-zinc-400">#{tag}</span>
+        Posts tagged <span class="text-zinc-400">#{label}</span>
       </h1>
 
       {posts.length === 0 ? (
@@ -47,7 +32,7 @@ const { posts } = Astro.props as { posts: Post[] };
       ) : (
         <ul>
           {posts.map((post) => (
-            <BlogPost url={post.url} title={post.frontmatter.title} pubDate={post.frontmatter.pubDate} />
+            <BlogPost url={`/posts/${post.id}`} title={post.data.title} pubDate={post.data.pubDate} />
           ))}
         </ul>
       )}

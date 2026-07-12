@@ -1,30 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
 import InfoLayout from '../layouts/InfoLayout.astro';
 import BlogPost from '../components/BlogPost.astro';
 
 const pageTitle = 'My Blog';
 
-interface PostFrontmatter {
-  title: string;
-  description?: string;
-  pubDate: string;
-  author?: string;
-  tags?: string[];
-}
-
-interface Post {
-  url: string;
-  frontmatter: PostFrontmatter;
-}
-
-const allPosts = Object.values(import.meta.glob<Post>('./posts/*.md', { eager: true }));
-
-const sortedPosts = allPosts
-  .filter((p) => Boolean(p.frontmatter?.title))
-  .sort(
-    (a, b) =>
-      new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime(),
-  );
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
 ---
 
 <InfoLayout pageTitle={pageTitle}>
@@ -38,12 +21,12 @@ const sortedPosts = allPosts
     </p>
 
     <div class="mt-6 sm:mt-12">
-      {sortedPosts.length === 0 ? (
+      {posts.length === 0 ? (
         <p class="text-zinc-500 text-lg">No posts yet &mdash; check back soon.</p>
       ) : (
         <ul>
-          {sortedPosts.map((post) => (
-            <BlogPost url={post.url} title={post.frontmatter.title} pubDate={post.frontmatter.pubDate} />
+          {posts.map((post) => (
+            <BlogPost url={`/posts/${post.id}`} title={post.data.title} pubDate={post.data.pubDate} />
           ))}
         </ul>
       )}

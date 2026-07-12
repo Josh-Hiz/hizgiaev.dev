@@ -1,23 +1,12 @@
 ---
-import InfoLayout from '../../layouts/InfoLayout.astro';
+import { getCollection } from 'astro:content';
+import InfoLayout from '@layouts/InfoLayout.astro';
+import { slugifyTag, uniqueTags } from '@lib/tags';
 
 const pageTitle = 'Tag Index';
 
-interface PostFrontmatter {
-  title: string;
-  tags?: string[];
-}
-
-interface Post {
-  url: string;
-  frontmatter: PostFrontmatter;
-}
-
-const allPosts = Object.values(import.meta.glob<Post>('../posts/*.md', { eager: true }));
-
-const tags = [
-  ...new Set(allPosts.flatMap((post) => post.frontmatter?.tags ?? []).filter(Boolean)),
-].sort();
+const allPosts = await getCollection('blog');
+const tags = uniqueTags(allPosts.map((post) => post.data.tags));
 ---
 
 <InfoLayout pageTitle={pageTitle}>
@@ -35,7 +24,7 @@ const tags = [
         {tags.map((tag) => (
           <li class="list-none border-b border-zinc-800 last:border-b-0">
             <a
-              href={`/tags/${tag}`}
+              href={`/tags/${slugifyTag(tag)}`}
               class="w-full group flex items-center justify-between py-4
                      text-lg md:text-xl lg:text-2xl text-zinc-500 hover:text-zinc-100
                      transition-colors focus-visible:outline-2 outline-offset-2 outline-zinc-100/20"

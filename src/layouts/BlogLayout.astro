@@ -1,22 +1,20 @@
 ---
+import 'katex/dist/katex.min.css';
 import InfoLayout from '../layouts/InfoLayout.astro';
+import { slugifyTag } from '@lib/tags';
 // KaTeX styles are bundled and emitted only on pages that use this layout,
 // so blog posts get math rendering without a render-blocking CDN request and
 // the rest of the site ships none of it.
-import 'katex/dist/katex.min.css';
 
 interface Props {
-  frontmatter: {
-    title: string;
-    description?: string;
-    pubDate: string | Date;
-    author?: string;
-    tags?: string[];
-  };
+  title: string;
+  description?: string | undefined;
+  pubDate: Date | string;
+  author?: string | undefined;
+  tags?: string[] | undefined;
 }
 
-const { frontmatter } = Astro.props;
-const { title, description, pubDate, author, tags = [] } = frontmatter ?? {};
+const { title, description, pubDate, author, tags = [] } = Astro.props;
 
 const d = pubDate instanceof Date ? pubDate : new Date(pubDate);
 const isValidDate = !Number.isNaN(d.getTime());
@@ -53,7 +51,7 @@ const formattedDate = isValidDate
             <ul class="flex flex-wrap gap-2">
               {tags.map((t) => (
                 <li class="px-2 py-0.5 rounded-full text-zinc-400 border border-zinc-800">
-                  <a href={`/tags/${t}`} class="hover:text-zinc-200">#{t}</a>
+                  <a href={`/tags/${slugifyTag(t)}`} class="hover:text-zinc-200">#{t}</a>
                 </li>
               ))}
             </ul>
