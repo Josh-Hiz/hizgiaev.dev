@@ -3,8 +3,6 @@ import InfoLayout from '../layouts/InfoLayout.astro';
 
 const pageTitle = 'Experience & Skills';
 
-interface SkillItem { label: string }
-
 const languages: string[] = [
   'C++17/20/23', 'Python', 'C#', 'Java', 'JavaScript', 'SQL'
 ];
@@ -84,7 +82,7 @@ const experience: ExperienceEntry[] = [
 <InfoLayout pageTitle={pageTitle}>
   <div class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col justify-between gap-16 sm:gap-20">
 
-    <!-- ── Page title ─────────────────────────────────────────────────── -->
+    <!-- Page title -->
     <div class="space-y-4 sm:space-y-12">
       <h1
         class="text-white font-bold text-balance
@@ -93,7 +91,7 @@ const experience: ExperienceEntry[] = [
         Experience & Education
       </h1>
 
-      <!-- ── Experience timeline ──────────────────────────────────────── -->
+      <!-- Experience timeline -->
       <section class="space-y-2 text-lg relative" aria-label="Work experience">
         <h2
           class="px-4 text-zinc-400 underline underline-offset-4 decoration-zinc-500"
@@ -135,13 +133,6 @@ const experience: ExperienceEntry[] = [
                 />
               </span>
 
-              <!--
-                Responsive title / date row.
-                Previously `flex items-baseline justify-between` with a
-                `whitespace-nowrap` date caused the title to be squeezed to
-                almost nothing on narrow screens. Now stacks vertically on
-                mobile and goes side-by-side on sm+.
-              -->
               <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
                 <h3 class="text-white font-semibold text-xl md:text-2xl">
                   {title}
@@ -161,7 +152,7 @@ const experience: ExperienceEntry[] = [
       </section>
     </div>
 
-    <!-- ── Education ────────────────────────────────────────────────────── -->
+    <!-- Education -->
     <section class="space-y-2 text-lg" aria-label="Education">
       <h2
         class="px-4 text-zinc-400 underline underline-offset-4 decoration-zinc-500"
@@ -175,8 +166,7 @@ const experience: ExperienceEntry[] = [
                  hover:bg-zinc-800/15 hover:ring-1 hover:ring-zinc-800/60
                  hover:-translate-y-0.5 p-4 sm:p-6"
         >
-          <!-- Responsive: title + date stack on mobile -->
-          <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+            <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
             <h3 class="text-white font-semibold text-xl md:text-2xl">
               Stevens Institute of Technology —<br class="sm:hidden" />
               B.S. in Computer Science & Mathematics
@@ -211,7 +201,7 @@ const experience: ExperienceEntry[] = [
       </div>
     </section>
 
-    <!-- ── Skills ───────────────────────────────────────────────────────── -->
+    <!-- Skills -->
     <section class="space-y-2 text-lg" aria-label="Skills">
       <h2
         class="px-4 text-zinc-400 underline underline-offset-4 decoration-zinc-500"

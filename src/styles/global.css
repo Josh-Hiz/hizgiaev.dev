@@ -1,17 +1,21 @@
-
 @import '@fontsource/geist-sans/400.css';
+@import '@fontsource/geist-sans/500.css';
 @import '@fontsource/geist-sans/600.css';
 @import '@fontsource/geist-sans/700.css';
-/* Mono is used in blog prose code blocks via @tailwindcss/typography */
 @import '@fontsource/geist-mono/400.css';
 
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
-/* Tell Tailwind to scan every file type that may contain class names */
-@source './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}';
+@source '../**/*.{astro,html,js,jsx,md,mdx,ts,tsx}';
 
-@theme inline {
-  --font-sans: var(--font-geist-sans, 'Geist Sans', sans-serif);
-  --font-mono: var(--font-geist-mono, 'Geist Mono', monospace);
+@theme {
+  --font-sans: 'Geist Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+}
+
+
+
+:root {
+  --shader-fallback: radial-gradient(125% 125% at 30% 15%, #d07a01 0%, #14120f 55%, #0a0a0a 100%);
 }

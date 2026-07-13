@@ -1,35 +1,29 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import WarpBackground from '../components/backgrounds/Warp';
-import Footer from '../components/Footer.astro';
+import ShaderBackground from '@components/backgrounds/ShaderBackground';
+import Footer from '@components/Footer.astro';
 
 interface Props {
-  pageTitle?: string;
+  pageTitle?: string | undefined;
 }
+
 const { pageTitle } = Astro.props;
 ---
+
 <BaseLayout pageTitle={pageTitle}>
-  <div class="flex relative gap-4 w-full max-w-7xl">
-    <nav
-      class="relative w-4 md:min-w-2xs xl:min-w-sm sm:min-h-screen sm:ml-4 sm:pb-4"
-      aria-hidden="true"
-    >
-      <div
-        class="w-full h-full max-sm:w-4 md:max-w-2xs xl:max-w-sm
-               fixed inset-y-0 -z-10 sm:bottom-4 sm:rounded-b-full overflow-hidden"
-      >
-
-        <WarpBackground
-          colors={['#14120f', '#d07a01', '#f0edea']}
-          speed={0.15}
-          swirl={1.5}
-          swirlIterations={10}
-          client:media="(min-width: 768px)"
-        />
+  <div class="mx-auto flex w-full max-w-7xl gap-4">
+    <div class="relative hidden w-4 shrink-0 sm:block md:w-64 xl:w-96" aria-hidden="true">
+      {/* Deliberately NOT persisted. A persisted island gets parked on <html>
+          mid-swap, where it resolves against the viewport instead of this rail —
+          so the canvas was resized 256px -> full-width -> 256px on every
+          navigation, which corrupts the mount. Mounting fresh per page costs a
+          600ms fade and is always correct. */}
+      <div class="sticky top-0 h-dvh overflow-hidden rounded-b-full">
+        <ShaderBackground quality="balanced" fadeMs={600} client:idle />
       </div>
-    </nav>
+    </div>
 
-    <main class="relative z-0 flex-1 min-w-0">
+    <main class="relative z-0 min-w-0 flex-1">
       <slot />
       <Footer />
     </main>

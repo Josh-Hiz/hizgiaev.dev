@@ -1,64 +1,43 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-// import Availability from '../components/Availability.astro';
-import WarpBackground from '../components/backgrounds/Warp';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ShaderBackground from '@components/backgrounds/ShaderBackground';
 ---
+
 <BaseLayout>
   <main>
     <div class="group relative w-full min-h-dvh flex items-center justify-center">
-
-      <!-- Background shader layer -->
-      <div class="absolute inset-0 -z-10">
-        <WarpBackground
-          colors={['#14120f', '#d07a01', '#f0edea']}
-          speed={0.6}
-          swirl={0.5}
-          swirlIterations={10}
-          client:load
-        />
+      <div class="absolute inset-0 -z-10 overflow-hidden">
+        <ShaderBackground quality="high" client:idle />
       </div>
 
-      <!-- Foreground content -->
       <div class="p-4 sm:p-8 absolute inset-0 flex flex-col justify-between z-10">
-        <div>
-          <h1
-            class="text-white font-bold text-balance
-                   text-5xl sm:text-8xl md:text-[120px] lg:text-[160px]
-                   tracking-tighter"
+        <h1
+          class="text-white font-bold text-balance
+                 text-5xl sm:text-8xl md:text-[120px] lg:text-[160px] tracking-tighter"
+        >
+          Joshua <br /> Hizgiaev
+        </h1>
+
+        <div class="mb-2 sm:mb-4 flex items-center gap-4">
+          <a
+            href="mailto:jhizgiaev2704@gmail.com"
+            class="w-fit text-base sm:text-2xl px-5 py-2 rounded-full
+                   transition-all duration-300 ease-in-out whitespace-nowrap
+                   text-zinc-900 bg-zinc-100
+                   hover:outline-2 outline-offset-2 outline-zinc-100 cursor-pointer"
           >
-            Joshua <br /> Hizgiaev
-          </h1>
+            Contact me
+          </a>
+          <a
+            href="/about"
+            class="w-fit text-base sm:text-2xl px-5 py-2 rounded-full
+                   transition-all duration-300 ease-in-out whitespace-nowrap
+                   text-zinc-100 hover:text-white bg-transparent hover:bg-zinc-100/20
+                   hover:outline-2 outline-offset-2 outline-zinc-100/20"
+          >
+            See more
+          </a>
         </div>
-
-        <!-- Bottom CTA row -->
-        <div>
-          <!-- <Availability /> -->
-          <div class="mb-2 sm:mb-4 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-              <a
-                href="mailto:jhizgiaev2704@gmail.com"
-                class="w-fit text-base sm:text-2xl px-5 py-2 rounded-full
-                       transition-all duration-300 ease-in-out whitespace-nowrap
-                       text-zinc-900 bg-zinc-100
-                       hover:outline-2 outline-offset-2 outline-zinc-100
-                       cursor-pointer"
-              >
-                Contact me
-              </a>
-              <a
-                href="/about"
-                class="w-fit text-base sm:text-2xl px-5 py-2 rounded-full
-                       transition-all duration-300 ease-in-out whitespace-nowrap
-                       text-zinc-100 hover:text-white bg-transparent
-                       hover:bg-zinc-100/20
-                       hover:outline-2 outline-offset-2 outline-zinc-100/20"
-              >
-                See more
-              </a>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </main>

@@ -1,7 +1,6 @@
 ---
-layout: ../../layouts/BlogLayout.astro
 title: 'Jane Street Puzzle Aug-2025'
-pubDate: 09-01-2025
+pubDate: '2025-09-01'
 description: 'A detailed explanation of the solution to Jane Street puzzle for August 2025'
 author: 'Joshua Hizgiaev'
 tags: ["JaneStreet", "Puzzle"]

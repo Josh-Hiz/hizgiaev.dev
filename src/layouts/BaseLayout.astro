@@ -1,43 +1,71 @@
 ---
-// Removed: `import { Font } from 'astro:assets'`
-// The Font component was wired to the broken Google Fonts provider for Geist.
-// Fonts are now imported directly in global.css via @fontsource, which bundles
-// the woff2 files as static assets — no runtime cross-origin request needed.
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
+import BackgroundSettings from '@components/backgrounds/BackgroundSettings';
+import { backgroundFallbacks } from '@components/backgrounds/presets';
+import { DEFAULT_SETTINGS, STORAGE_KEY } from '@lib/background-settings';
+
+interface Props {
+  pageTitle?: string | undefined;
+  pageDescription?: string | undefined;
+}
 
 const { pageTitle, pageDescription } = Astro.props;
 
-const defaultPageTitle   = 'Hizgiaev.dev';
-const defaultDescription =
+const title = pageTitle ?? 'Hizgiaev.dev';
+const description =
+  pageDescription ??
   'Interested in quantitative development, software engineering, quantitative research, computer architectures, HPC, and many more.';
-
-const title       = pageTitle       ?? defaultPageTitle;
-const description = pageDescription ?? defaultDescription;
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
   <head>
-    <!-- General -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#18181b" />
 
-    <!-- Favicons -->
-    <link rel="icon"             type="image/png"  href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon"             type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon"                         href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180"      href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="hizgiaev.dev" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <title>{title}</title>
     <slot name="head" />
 
+    {/* Sets the saved gradient before first paint on a fresh load. On client-side
+        navigation Astro wipes <html>'s attributes and won't re-run this, so
+        ShaderBackground restores the variable after each swap. */}
+    <script
+      is:inline
+      define:vars={{
+        fallbacks: backgroundFallbacks,
+        fallbackDefault: DEFAULT_SETTINGS.variant,
+        storageKey: STORAGE_KEY,
+      }}
+    >
+      try {
+        const raw = localStorage.getItem(storageKey);
+        const saved = raw ? JSON.parse(raw).variant : null;
+        const variant = saved && fallbacks[saved] ? saved : fallbackDefault;
+        document.documentElement.style.setProperty('--shader-fallback', fallbacks[variant]);
+      } catch {
+        document.documentElement.style.setProperty(
+          '--shader-fallback',
+          fallbacks[fallbackDefault],
+        );
+      }
+    </script>
+
     <ClientRouter />
   </head>
   <body class="font-sans bg-zinc-900 min-h-screen">
     <slot />
+
+    <BackgroundSettings client:idle transition:persist="bg-settings" />
   </body>
 </html>
