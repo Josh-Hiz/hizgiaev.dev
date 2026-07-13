@@ -48,6 +48,12 @@ export interface ShaderBackgroundProps {
   quality?: ShaderQuality | undefined;
   fadeMs?: number;
   pauseWhenOffscreen?: boolean;
+  /**
+   * Tear the shader down entirely when it scrolls out of view, not just pause
+   * it. Pausing keeps the WebGL context alive, and browsers only allow ~16 at
+   * once — so the 21-tile gallery needs this or it evicts its own contexts.
+   */
+  unmountWhenOffscreen?: boolean;
 }
 
 export default function ShaderBackground({
@@ -55,6 +61,7 @@ export default function ShaderBackground({
   quality,
   fadeMs = 900,
   pauseWhenOffscreen = true,
+  unmountWhenOffscreen = false,
 }: ShaderBackgroundProps) {
   const ref = useRef<HTMLDivElement>(null);
   const pauseTimer = useRef<number | null>(null);
@@ -158,7 +165,7 @@ export default function ShaderBackground({
     return () => ro.disconnect();
   }, []);
 
-  const enabled = enabledSetting && hasBox;
+  const enabled = enabledSetting && hasBox && (!unmountWhenOffscreen || onscreen);
 
   useEffect(() => {
     if (!variant || !enabled) return;
@@ -178,6 +185,32 @@ export default function ShaderBackground({
   const q = QUALITY[quality ?? settings?.quality ?? 'high'];
 
   const Variant = variant && enabled ? getVariantComponent(variant) : null;
+
+  // The library's dispose() deletes the program and textures but never calls
+  // loseContext(), so the context survives until GC. With a shader remounting on
+  // every navigation, that walks straight into the browser's ~16-context ceiling
+  // ("too many active WebGL contexts"). Release it by hand when the shader goes
+  // away or the variant changes.
+  useEffect(() => {
+    const root = ref.current;
+    if (!root || !Variant) return;
+
+    let canvas: HTMLCanvasElement | null = root.querySelector('canvas');
+    // The variant chunk is lazy, so the canvas usually lands a tick later.
+    const observer = new MutationObserver(() => {
+      const found = root.querySelector('canvas');
+      if (found) canvas = found;
+    });
+    observer.observe(root, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      if (!canvas) return;
+      const gl = (canvas.getContext('webgl2') ??
+        canvas.getContext('webgl')) as WebGLRenderingContext | null;
+      gl?.getExtension('WEBGL_lose_context')?.loseContext();
+    };
+  }, [Variant]);
 
   // Astro's swapRootAttributes strips every <html> attribute on navigation,
   // including the inline style holding --shader-fallback, and the head script
