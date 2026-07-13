@@ -1,7 +1,10 @@
 ---
 import InfoLayout from '../layouts/InfoLayout.astro';
+
+const pageTitle = 'About';
+const pageDescription = 'A little bit more about myself.';
 ---
-<InfoLayout pageTitle="About">
+<InfoLayout pageTitle={pageTitle} pageDescription={pageDescription}>
   <div
     class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col justify-between gap-16 sm:gap-32">
     <div class="space-y-4 sm:space-y-12">

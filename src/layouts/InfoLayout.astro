@@ -5,12 +5,13 @@ import Footer from '@components/Footer.astro';
 
 interface Props {
   pageTitle?: string | undefined;
+  pageDescription?: string | undefined;
 }
 
-const { pageTitle } = Astro.props;
+const { pageTitle, pageDescription } = Astro.props;
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
   <div class="mx-auto flex w-full max-w-7xl gap-4">
     <div class="relative hidden w-4 shrink-0 sm:block md:w-64 xl:w-96" aria-hidden="true">
       {/* Deliberately NOT persisted. A persisted island gets parked on <html>

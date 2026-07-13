@@ -2,6 +2,7 @@
 import InfoLayout from '../layouts/InfoLayout.astro';
 
 const pageTitle = 'Experience & Skills';
+const pageDescription = 'Checkout my most recent experience, skills and information on my most recent education.';
 
 const languages: string[] = [
   'C++17/20/23', 'Python', 'C#', 'Java', 'JavaScript', 'SQL'
@@ -22,8 +23,6 @@ const libraries: string[] = [
 const backend: string[] = [
   '.NET', 'ASP.NET', 'Microsoft Azure', 'Microsoft SQL Server', 'MongoDB', 'Apache Spark'
 ];
-
-
 
 interface ExperienceEntry {
   title: string;
@@ -79,7 +78,7 @@ const experience: ExperienceEntry[] = [
 ];
 ---
 
-<InfoLayout pageTitle={pageTitle}>
+<InfoLayout pageTitle={pageTitle} pageDescription={pageDescription}>
   <div class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col justify-between gap-16 sm:gap-20">
 
     <!-- Page title -->

@@ -4,13 +4,14 @@ import InfoLayout from '../layouts/InfoLayout.astro';
 import BlogPost from '../components/BlogPost.astro';
 
 const pageTitle = 'My Blog';
+const pageDescription = 'My blog page where I post about my interests, recent experiences, opinions and the like.';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 );
 ---
 
-<InfoLayout pageTitle={pageTitle}>
+<InfoLayout pageTitle={pageTitle} pageDescription={pageDescription}>
   <div class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col">
     <h1 class="text-white font-bold text-balance text-4xl md:text-6xl xl:text-8xl tracking-tight">
       My Blog
