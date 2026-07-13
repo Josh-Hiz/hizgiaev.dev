@@ -13,3 +13,9 @@
   --font-sans: 'Geist Sans', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, monospace;
 }
+
+
+
+:root {
+  --shader-fallback: radial-gradient(125% 125% at 30% 15%, #d07a01 0%, #14120f 55%, #0a0a0a 100%);
+}

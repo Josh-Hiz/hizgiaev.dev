@@ -1,26 +1,13 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import WarpBackground from '../components/backgrounds/Warp';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ShaderBackground from '@components/backgrounds/ShaderBackground';
 ---
 
 <BaseLayout>
   <main>
     <div class="group relative w-full min-h-dvh flex items-center justify-center">
-      <!--
-        Static gradient paints instantly; the shader hydrates on idle (after
-        first paint) and layers on top, so the hero text is never blocked on JS.
-      -->
-      <div
-        class="absolute inset-0 -z-10
-               bg-[radial-gradient(125%_125%_at_30%_15%,#d07a01_0%,#14120f_55%,#0a0a0a_100%)]"
-      >
-        <WarpBackground
-          colors={['#14120f', '#d07a01', '#f0edea']}
-          speed={0.6}
-          swirl={0.5}
-          swirlIterations={6}
-          client:idle
-        />
+      <div class="absolute inset-0 -z-10 overflow-hidden">
+        <ShaderBackground quality="high" client:idle />
       </div>
 
       <div class="p-4 sm:p-8 absolute inset-0 flex flex-col justify-between z-10">
