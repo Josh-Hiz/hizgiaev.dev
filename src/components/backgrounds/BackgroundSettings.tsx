@@ -85,7 +85,7 @@ export default function BackgroundSettings() {
               <button
                 type="button"
                 onClick={() => setSettings(resetSettings())}
-                className="text-xs text-zinc-500 underline-offset-2 hover:text-zinc-200 hover:underline"
+                className="inline-flex min-h-6 items-center rounded px-2 text-xs text-zinc-400 underline-offset-2 hover:text-zinc-200 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-100"
               >
                 Reset
               </button>
@@ -114,7 +114,7 @@ export default function BackgroundSettings() {
 
               {GROUPS.map((group) => (
                 <fieldset key={group} className="mt-4">
-                  <legend className="text-[0.7rem] uppercase tracking-wide text-zinc-500">
+                  <legend className="text-[0.7rem] uppercase tracking-wide text-zinc-400">
                     {group}
                   </legend>
                   <div className="mt-2 grid grid-cols-5 gap-2">
@@ -143,11 +143,11 @@ export default function BackgroundSettings() {
 
               <p className="mt-3 font-mono text-xs text-zinc-400">
                 {settings.variant}
-                <span className="ml-2 text-zinc-600">{backgroundLabels[settings.variant]}</span>
+                <span className="ml-2 text-zinc-400">{backgroundLabels[settings.variant]}</span>
               </p>
 
               <fieldset className="mt-4">
-                <legend className="text-[0.7rem] uppercase tracking-wide text-zinc-500">
+                <legend className="text-[0.7rem] uppercase tracking-wide text-zinc-400">
                   Quality
                 </legend>
                 <div className="mt-2 grid grid-cols-3 gap-2">
@@ -173,7 +173,7 @@ export default function BackgroundSettings() {
               </fieldset>
 
               <label className="mt-4 block">
-                <span className="flex items-baseline justify-between text-[0.7rem] uppercase tracking-wide text-zinc-500">
+                <span className="flex items-baseline justify-between text-[0.7rem] uppercase tracking-wide text-zinc-400">
                   Speed
                   <span className="font-mono normal-case text-zinc-400">
                     {settings.speed.toFixed(2)}&times;
@@ -190,7 +190,7 @@ export default function BackgroundSettings() {
                 />
               </label>
 
-              <p className="mt-4 text-xs leading-relaxed text-zinc-500">
+              <p className="mt-4 text-xs leading-relaxed text-zinc-400">
                 Saved in this browser. Reduced-motion always wins.
               </p>
             </div>

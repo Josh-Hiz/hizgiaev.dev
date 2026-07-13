@@ -22,7 +22,7 @@ const posts = (await getCollection('blog')).sort(
 
     <div class="mt-6 sm:mt-12">
       {posts.length === 0 ? (
-        <p class="text-zinc-500 text-lg">No posts yet &mdash; check back soon.</p>
+        <p class="text-zinc-400 text-lg">No posts yet &mdash; check back soon.</p>
       ) : (
         <ul>
           {posts.map((post) => (

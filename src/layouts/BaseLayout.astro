@@ -12,6 +12,8 @@ interface Props {
 
 const { pageTitle, pageDescription } = Astro.props;
 
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+
 const title = pageTitle ?? 'Hizgiaev.dev';
 const description =
   pageDescription ??
@@ -26,6 +28,16 @@ const description =
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#18181b" />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="hizgiaev.dev" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
@@ -60,6 +72,17 @@ const description =
         );
       }
     </script>
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Joshua Hizgiaev',
+      url: 'https://www.hizgiaev.dev',
+      jobTitle: 'C++ Software Engineer',
+      worksFor: { '@type': 'Organization', name: 'Trexquant Investment LP' },
+      alumniOf: { '@type': 'CollegeOrUniversity', name: 'Stevens Institute of Technology' },
+      sameAs: ['https://github.com/Josh-Hiz', 'https://www.linkedin.com/in/joshuahizgiaev/'],
+    })} />
 
     <ClientRouter />
   </head>

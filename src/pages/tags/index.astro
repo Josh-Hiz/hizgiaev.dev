@@ -18,7 +18,7 @@ const tags = uniqueTags(allPosts.map((post) => post.data.tags));
     </header>
 
     {tags.length === 0 ? (
-      <p class="text-zinc-500 text-lg mt-6">No tags found yet.</p>
+      <p class="text-zinc-400 text-lg mt-6">No tags found yet.</p>
     ) : (
       <ul class="mt-6 sm:mt-12 border-y border-zinc-800" aria-label="Blog tag list">
         {tags.map((tag) => (
@@ -26,7 +26,7 @@ const tags = uniqueTags(allPosts.map((post) => post.data.tags));
             <a
               href={`/tags/${slugifyTag(tag)}`}
               class="w-full group flex items-center justify-between py-4
-                     text-lg md:text-xl lg:text-2xl text-zinc-500 hover:text-zinc-100
+                     text-lg md:text-xl lg:text-2xl text-zinc-400 hover:text-zinc-100
                      transition-colors focus-visible:outline-2 outline-offset-2 outline-zinc-100/20"
               data-astro-prefetch="hover"
             >
