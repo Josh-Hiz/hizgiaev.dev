@@ -1,5 +1,5 @@
-import { ColorPanels } from '@paper-design/shaders-react';
-import { fill, type VariantProps } from './types';
+import { ColorPanels } from "@paper-design/shaders-react";
+import { fill, type VariantProps } from "./types";
 
 export default function Panels({ speed, ...gl }: VariantProps) {
   return (
@@ -9,7 +9,7 @@ export default function Panels({ speed, ...gl }: VariantProps) {
       fit="cover"
       scale={1}
       colorBack="#0a0a0a"
-      colors={['#d07a01', '#2f6fe0', '#12a150', '#f0edea', '#6200ff']}
+      colors={["#d07a01", "#2f6fe0", "#12a150", "#f0edea", "#6200ff"]}
       angle1={0.3}
       angle2={-0.4}
       length={1.1}

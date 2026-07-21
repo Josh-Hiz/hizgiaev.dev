@@ -1,5 +1,5 @@
-import { Water } from '@paper-design/shaders-react';
-import { fill, type VariantProps } from './types';
+import { Water } from "@paper-design/shaders-react";
+import { fill, type VariantProps } from "./types";
 
 export default function Tide({ speed, ...gl }: VariantProps) {
   return (

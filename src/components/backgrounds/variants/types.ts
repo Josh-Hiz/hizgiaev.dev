@@ -6,4 +6,8 @@ export interface VariantProps {
   webGlContextAttributes: WebGLContextAttributes;
 }
 
-export const fill = { display: 'block', width: '100%', height: '100%' } as const;
+export const fill = {
+  display: "block",
+  width: "100%",
+  height: "100%",
+} as const;

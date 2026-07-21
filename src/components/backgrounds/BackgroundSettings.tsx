@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 import {
   backgroundFallbacks,
   backgroundGroups,
   backgroundLabels,
   type BackgroundGroup,
-} from './presets';
+} from "./presets";
 import {
   type BackgroundSettings,
   type ShaderQuality,
@@ -13,14 +13,15 @@ import {
   resetSettings,
   subscribe,
   writeSettings,
-} from '@lib/background-settings';
+} from "@lib/background-settings";
 
-const QUALITIES: ShaderQuality[] = ['low', 'balanced', 'high'];
+const QUALITIES: ShaderQuality[] = ["low", "balanced", "high"];
 const GROUPS = Object.keys(backgroundGroups) as BackgroundGroup[];
 
 export default function BackgroundSettings() {
   const [open, setOpen] = useState(false);
-  const [settings, setSettings] = useState<BackgroundSettings>(DEFAULT_SETTINGS);
+  const [settings, setSettings] =
+    useState<BackgroundSettings>(DEFAULT_SETTINGS);
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -38,36 +39,38 @@ export default function BackgroundSettings() {
     const apply = () => {
       const current = readSettings();
       document.documentElement.style.setProperty(
-        '--shader-fallback',
+        "--shader-fallback",
         backgroundFallbacks[current.variant],
       );
     };
     apply();
-    document.addEventListener('astro:after-swap', apply);
-    return () => document.removeEventListener('astro:after-swap', apply);
+    document.addEventListener("astro:after-swap", apply);
+    return () => document.removeEventListener("astro:after-swap", apply);
   }, []);
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setOpen(false);
         buttonRef.current?.focus();
       }
     };
     const onDown = (e: MouseEvent) => {
       const t = e.target as Node;
-      if (!panelRef.current?.contains(t) && !buttonRef.current?.contains(t)) setOpen(false);
+      if (!panelRef.current?.contains(t) && !buttonRef.current?.contains(t))
+        setOpen(false);
     };
-    document.addEventListener('keydown', onKey);
-    document.addEventListener('mousedown', onDown);
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onDown);
     return () => {
-      document.removeEventListener('keydown', onKey);
-      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onDown);
     };
   }, [open]);
 
-  const set = (patch: Partial<BackgroundSettings>) => setSettings(writeSettings(patch));
+  const set = (patch: Partial<BackgroundSettings>) =>
+    setSettings(writeSettings(patch));
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-16 z-50 flex justify-end px-4 sm:px-6">
@@ -81,7 +84,9 @@ export default function BackgroundSettings() {
                        border-zinc-700/70 bg-zinc-900/95 shadow-2xl backdrop-blur-md"
           >
             <div className="flex items-baseline justify-between border-b border-zinc-800 px-4 py-3">
-              <h2 className="text-sm font-semibold text-zinc-100">Background</h2>
+              <h2 className="text-sm font-semibold text-zinc-100">
+                Background
+              </h2>
               <button
                 type="button"
                 onClick={() => setSettings(resetSettings())}
@@ -101,12 +106,12 @@ export default function BackgroundSettings() {
                   aria-label="Toggle shader animation"
                   onClick={() => set({ enabled: !settings.enabled })}
                   className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${
-                    settings.enabled ? 'bg-zinc-100' : 'bg-zinc-700'
+                    settings.enabled ? "bg-zinc-100" : "bg-zinc-700"
                   }`}
                 >
                   <span
                     className={`absolute top-1 h-4 w-4 rounded-full bg-zinc-900 transition-transform ${
-                      settings.enabled ? 'translate-x-6' : 'translate-x-1'
+                      settings.enabled ? "translate-x-6" : "translate-x-1"
                     }`}
                   />
                 </button>
@@ -130,8 +135,8 @@ export default function BackgroundSettings() {
                           onClick={() => set({ variant, enabled: true })}
                           className={`h-10 rounded-lg border transition-all ${
                             active
-                              ? 'border-zinc-100 ring-2 ring-zinc-100/60'
-                              : 'border-zinc-700 hover:border-zinc-400'
+                              ? "border-zinc-100 ring-2 ring-zinc-100/60"
+                              : "border-zinc-700 hover:border-zinc-400"
                           }`}
                           style={{ background: backgroundFallbacks[variant] }}
                         />
@@ -143,7 +148,9 @@ export default function BackgroundSettings() {
 
               <p className="mt-3 font-mono text-xs text-zinc-400">
                 {settings.variant}
-                <span className="ml-2 text-zinc-400">{backgroundLabels[settings.variant]}</span>
+                <span className="ml-2 text-zinc-400">
+                  {backgroundLabels[settings.variant]}
+                </span>
               </p>
 
               <fieldset className="mt-4">
@@ -161,8 +168,8 @@ export default function BackgroundSettings() {
                         onClick={() => set({ quality: q })}
                         className={`rounded-lg border px-2 py-1.5 text-xs capitalize transition-colors ${
                           active
-                            ? 'border-zinc-100 bg-zinc-100 text-zinc-900'
-                            : 'border-zinc-700 text-zinc-300 hover:border-zinc-400'
+                            ? "border-zinc-100 bg-zinc-100 text-zinc-900"
+                            : "border-zinc-700 text-zinc-300 hover:border-zinc-400"
                         }`}
                       >
                         {q}
@@ -208,8 +215,16 @@ export default function BackgroundSettings() {
                      hover:border-zinc-500 hover:text-zinc-100
                      focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-100"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            aria-hidden="true"
+          >
             <circle cx="12" cy="12" r="3.2" />
             <path d="M12 2v2.2M12 19.8V22M2 12h2.2M19.8 12H22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6" />
           </svg>

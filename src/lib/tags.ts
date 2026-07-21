@@ -2,10 +2,10 @@ export const slugifyTag = (tag: string): string =>
   tag
     .trim()
     .toLowerCase()
-    .replace(/\+/g, 'plus')
-    .replace(/#/g, 'sharp')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+    .replace(/\+/g, "plus")
+    .replace(/#/g, "sharp")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
 export function uniqueTags(tagLists: readonly string[][]): string[] {
   const bySlug = new Map<string, string>();

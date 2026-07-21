@@ -1,12 +1,12 @@
-import { Warp } from '@paper-design/shaders-react';
-import { fill, type VariantProps } from './types';
+import { Warp } from "@paper-design/shaders-react";
+import { fill, type VariantProps } from "./types";
 
 export default function Ink({ speed, ...gl }: VariantProps) {
   return (
     <Warp
       {...gl}
       style={fill}
-      colors={['#111314', '#9faeab', '#f3fee7']}
+      colors={["#111314", "#9faeab", "#f3fee7"]}
       scale={1.2}
       rotation={44}
       offsetY={-0.3}

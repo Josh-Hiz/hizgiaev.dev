@@ -1,5 +1,5 @@
-import { LiquidMetal } from '@paper-design/shaders-react';
-import { fill, type VariantProps } from './types';
+import { LiquidMetal } from "@paper-design/shaders-react";
+import { fill, type VariantProps } from "./types";
 
 export default function Chrome({ speed, ...gl }: VariantProps) {
   return (

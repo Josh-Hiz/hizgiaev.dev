@@ -1,50 +1,69 @@
 ---
-import { getCollection } from 'astro:content';
-import InfoLayout from '@layouts/InfoLayout.astro';
-import { slugifyTag, uniqueTags } from '@lib/tags';
+import { getCollection } from "astro:content";
+import InfoLayout from "@layouts/InfoLayout.astro";
+import { slugifyTag, uniqueTags } from "@lib/tags";
 
-const pageTitle = 'Tag Index';
+const pageTitle = "Tag Index";
 
-const allPosts = await getCollection('blog');
+const allPosts = await getCollection("blog");
 const tags = uniqueTags(allPosts.map((post) => post.data.tags));
 ---
 
 <InfoLayout pageTitle={pageTitle}>
-  <div class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col gap-16 sm:gap-32">
+  <div
+    class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col gap-16 sm:gap-32"
+  >
     <header class="space-y-4 sm:space-y-12">
-      <h1 class="text-white font-bold text-balance text-4xl md:text-6xl xl:text-8xl tracking-tight">
+      <h1
+        class="text-white font-bold text-balance text-4xl md:text-6xl xl:text-8xl tracking-tight"
+      >
         Search blog by tags
       </h1>
     </header>
 
-    {tags.length === 0 ? (
-      <p class="text-zinc-400 text-lg mt-6">No tags found yet.</p>
-    ) : (
-      <ul class="mt-6 sm:mt-12 border-y border-zinc-800" aria-label="Blog tag list">
-        {tags.map((tag) => (
-          <li class="list-none border-b border-zinc-800 last:border-b-0">
-            <a
-              href={`/tags/${slugifyTag(tag)}`}
-              class="w-full group flex items-center justify-between py-4
+    {
+      tags.length === 0 ? (
+        <p class="text-zinc-400 text-lg mt-6">No tags found yet.</p>
+      ) : (
+        <ul
+          class="mt-6 sm:mt-12 border-y border-zinc-800"
+          aria-label="Blog tag list"
+        >
+          {tags.map((tag) => (
+            <li class="list-none border-b border-zinc-800 last:border-b-0">
+              <a
+                href={`/tags/${slugifyTag(tag)}`}
+                class="w-full group flex items-center justify-between py-4
                      text-lg md:text-xl lg:text-2xl text-zinc-400 hover:text-zinc-100
                      transition-colors focus-visible:outline-2 outline-offset-2 outline-zinc-100/20"
-              data-astro-prefetch="hover"
-            >
-              <span class="px-2 py-0.5 rounded-full border border-zinc-800 text-zinc-400">
-                #{tag}
-              </span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="-rotate-45 group-hover:rotate-0 transition-all duration-300 ease-in-out"
-                width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"
+                data-astro-prefetch="hover"
               >
-                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                  stroke-width="1.5" d="M4 12h2.5M20 12l-6-6m6 6l-6 6m6-6H9.5" />
-              </svg>
-            </a>
-          </li>
-        ))}
-      </ul>
-    )}
+                <span class="px-2 py-0.5 rounded-full border border-zinc-800 text-zinc-400">
+                  #{tag}
+                </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="-rotate-45 group-hover:rotate-0 transition-all duration-300 ease-in-out"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M4 12h2.5M20 12l-6-6m6 6l-6 6m6-6H9.5"
+                  />
+                </svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
   </div>
 </InfoLayout>

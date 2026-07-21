@@ -1,11 +1,11 @@
 ---
-import { getCollection } from 'astro:content';
-import InfoLayout from '@layouts/InfoLayout.astro';
-import BlogPost from '@components/BlogPost.astro';
-import { slugifyTag, uniqueTags } from '@lib/tags';
+import { getCollection } from "astro:content";
+import InfoLayout from "@layouts/InfoLayout.astro";
+import BlogPost from "@components/BlogPost.astro";
+import { slugifyTag, uniqueTags } from "@lib/tags";
 
 export async function getStaticPaths() {
-  const allPosts = await getCollection('blog');
+  const allPosts = await getCollection("blog");
   const tags = uniqueTags(allPosts.map((post) => post.data.tags));
 
   return tags.map((tag) => {
@@ -21,21 +21,31 @@ const { label, posts } = Astro.props;
 ---
 
 <InfoLayout pageTitle={`#${label}`}>
-  <div class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col gap-16 sm:gap-32">
+  <div
+    class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col gap-16 sm:gap-32"
+  >
     <div class="space-y-4 sm:space-y-12">
-      <h1 class="text-white font-bold text-balance text-4xl md:text-6xl xl:text-8xl tracking-tight">
+      <h1
+        class="text-white font-bold text-balance text-4xl md:text-6xl xl:text-8xl tracking-tight"
+      >
         Posts tagged <span class="text-zinc-400">#{label}</span>
       </h1>
 
-      {posts.length === 0 ? (
-        <p class="text-zinc-400 text-lg">No posts found for this tag.</p>
-      ) : (
-        <ul>
-          {posts.map((post) => (
-            <BlogPost url={`/posts/${post.id}`} title={post.data.title} pubDate={post.data.pubDate} />
-          ))}
-        </ul>
-      )}
+      {
+        posts.length === 0 ? (
+          <p class="text-zinc-400 text-lg">No posts found for this tag.</p>
+        ) : (
+          <ul>
+            {posts.map((post) => (
+              <BlogPost
+                url={`/posts/${post.id}`}
+                title={post.data.title}
+                pubDate={post.data.pubDate}
+              />
+            ))}
+          </ul>
+        )
+      }
     </div>
   </div>
 </InfoLayout>

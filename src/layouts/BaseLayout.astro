@@ -1,9 +1,9 @@
 ---
-import '../styles/global.css';
-import { ClientRouter } from 'astro:transitions';
-import BackgroundSettings from '@components/backgrounds/BackgroundSettings';
-import { backgroundFallbacks } from '@components/backgrounds/presets';
-import { DEFAULT_SETTINGS, STORAGE_KEY } from '@lib/background-settings';
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import BackgroundSettings from "@components/backgrounds/BackgroundSettings";
+import { backgroundFallbacks } from "@components/backgrounds/presets";
+import { DEFAULT_SETTINGS, STORAGE_KEY } from "@lib/background-settings";
 
 interface Props {
   pageTitle?: string | undefined;
@@ -14,10 +14,10 @@ const { pageTitle, pageDescription } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 
-const title = pageTitle ?? 'hizgiaev.dev';
+const title = pageTitle ?? "hizgiaev.dev";
 const description =
   pageDescription ??
-  'Interested in quantitative development, software engineering, quantitative research, computer architectures, HPC, and many more.';
+  "Interested in quantitative development, software engineering, quantitative research, computer architectures, HPC, and many more.";
 ---
 
 <!doctype html>
@@ -49,9 +49,11 @@ const description =
     <title>{title}</title>
     <slot name="head" />
 
-    {/* Sets the saved gradient before first paint on a fresh load. On client-side
+    {
+      /* Sets the saved gradient before first paint on a fresh load. On client-side
         navigation Astro wipes <html>'s attributes and won't re-run this, so
-        ShaderBackground restores the variable after each swap. */}
+        ShaderBackground restores the variable after each swap. */
+    }
     <script
       is:inline
       define:vars={{
@@ -64,25 +66,38 @@ const description =
         const raw = localStorage.getItem(storageKey);
         const saved = raw ? JSON.parse(raw).variant : null;
         const variant = saved && fallbacks[saved] ? saved : fallbackDefault;
-        document.documentElement.style.setProperty('--shader-fallback', fallbacks[variant]);
+        document.documentElement.style.setProperty(
+          "--shader-fallback",
+          fallbacks[variant],
+        );
       } catch {
         document.documentElement.style.setProperty(
-          '--shader-fallback',
+          "--shader-fallback",
           fallbacks[fallbackDefault],
         );
       }
     </script>
 
-    <script type="application/ld+json" is:inline set:html={JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Person',
-      name: 'Joshua Hizgiaev',
-      url: 'https://www.hizgiaev.dev',
-      jobTitle: 'C++ Software Engineer',
-      worksFor: { '@type': 'Organization', name: 'Trexquant Investment LP' },
-      alumniOf: { '@type': 'CollegeOrUniversity', name: 'Stevens Institute of Technology' },
-      sameAs: ['https://github.com/Josh-Hiz', 'https://www.linkedin.com/in/joshuahizgiaev/'],
-    })} />
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: "Joshua Hizgiaev",
+        url: "https://www.hizgiaev.dev",
+        jobTitle: "C++ Software Engineer",
+        worksFor: { "@type": "Organization", name: "Trexquant Investment LP" },
+        alumniOf: {
+          "@type": "CollegeOrUniversity",
+          name: "Stevens Institute of Technology",
+        },
+        sameAs: [
+          "https://github.com/Josh-Hiz",
+          "https://www.linkedin.com/in/joshuahizgiaev/",
+        ],
+      })}
+    />
 
     <ClientRouter />
   </head>

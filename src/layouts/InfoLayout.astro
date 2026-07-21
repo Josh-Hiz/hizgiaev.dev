@@ -1,7 +1,7 @@
 ---
-import BaseLayout from './BaseLayout.astro';
-import ShaderBackground from '@components/backgrounds/ShaderBackground';
-import Footer from '@components/Footer.astro';
+import BaseLayout from "./BaseLayout.astro";
+import ShaderBackground from "@components/backgrounds/ShaderBackground";
+import Footer from "@components/Footer.astro";
 
 interface Props {
   pageTitle?: string | undefined;
@@ -13,12 +13,17 @@ const { pageTitle, pageDescription } = Astro.props;
 
 <BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
   <div class="mx-auto flex w-full max-w-7xl gap-4">
-    <div class="relative hidden w-4 shrink-0 sm:block md:w-64 xl:w-96" aria-hidden="true">
-      {/* Deliberately NOT persisted. A persisted island gets parked on <html>
+    <div
+      class="relative hidden w-4 shrink-0 sm:block md:w-64 xl:w-96"
+      aria-hidden="true"
+    >
+      {
+        /* Deliberately NOT persisted. A persisted island gets parked on <html>
           mid-swap, where it resolves against the viewport instead of this rail —
           so the canvas was resized 256px -> full-width -> 256px on every
           navigation, which corrupts the mount. Mounting fresh per page costs a
-          600ms fade and is always correct. */}
+          600ms fade and is always correct. */
+      }
       <div class="sticky top-0 h-dvh overflow-hidden rounded-b-full">
         <ShaderBackground quality="balanced" fadeMs={600} client:idle />
       </div>

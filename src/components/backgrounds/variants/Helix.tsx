@@ -1,5 +1,5 @@
-import { Swirl } from '@paper-design/shaders-react';
-import { fill, type VariantProps } from './types';
+import { Swirl } from "@paper-design/shaders-react";
+import { fill, type VariantProps } from "./types";
 
 export default function Helix({ speed, ...gl }: VariantProps) {
   return (
@@ -8,7 +8,7 @@ export default function Helix({ speed, ...gl }: VariantProps) {
       style={fill}
       fit="cover"
       colorBack="#14120f"
-      colors={['#f0edea', '#d07a01', '#7a3f00']}
+      colors={["#f0edea", "#d07a01", "#7a3f00"]}
       bandCount={4}
       twist={0.2}
       center={0.2}

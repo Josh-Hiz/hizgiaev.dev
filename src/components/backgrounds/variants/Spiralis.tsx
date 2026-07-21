@@ -1,5 +1,5 @@
-import { Spiral } from '@paper-design/shaders-react';
-import { fill, type VariantProps } from './types';
+import { Spiral } from "@paper-design/shaders-react";
+import { fill, type VariantProps } from "./types";
 
 export default function Spiralis({ speed, ...gl }: VariantProps) {
   return (

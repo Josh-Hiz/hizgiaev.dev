@@ -1,5 +1,5 @@
-import { GodRays } from '@paper-design/shaders-react';
-import { fill, type VariantProps } from './types';
+import { GodRays } from "@paper-design/shaders-react";
+import { fill, type VariantProps } from "./types";
 
 export default function Aurora({ speed, ...gl }: VariantProps) {
   return (
@@ -10,7 +10,7 @@ export default function Aurora({ speed, ...gl }: VariantProps) {
       offsetY={-0.4}
       colorBack="#05070f"
       colorBloom="#1e5fbf"
-      colors={['#33fff5', '#6200ff', '#ffffff']}
+      colors={["#33fff5", "#6200ff", "#ffffff"]}
       density={0.35}
       spotty={0.3}
       midSize={0.2}

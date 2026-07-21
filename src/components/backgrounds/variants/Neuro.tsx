@@ -1,5 +1,5 @@
-import { NeuroNoise } from '@paper-design/shaders-react';
-import { fill, type VariantProps } from './types';
+import { NeuroNoise } from "@paper-design/shaders-react";
+import { fill, type VariantProps } from "./types";
 
 export default function Neuro({ speed, ...gl }: VariantProps) {
   return (

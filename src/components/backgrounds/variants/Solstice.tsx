@@ -1,5 +1,5 @@
-import { GodRays } from '@paper-design/shaders-react';
-import { fill, type VariantProps } from './types';
+import { GodRays } from "@paper-design/shaders-react";
+import { fill, type VariantProps } from "./types";
 
 export default function Solstice({ speed, ...gl }: VariantProps) {
   return (
@@ -10,7 +10,7 @@ export default function Solstice({ speed, ...gl }: VariantProps) {
       offsetY={-0.55}
       colorBack="#0a0a0a"
       colorBloom="#d07a01"
-      colors={['#d07a01', '#ffc085', '#f0edea']}
+      colors={["#d07a01", "#ffc085", "#f0edea"]}
       density={0.45}
       spotty={0.15}
       midSize={0.33}

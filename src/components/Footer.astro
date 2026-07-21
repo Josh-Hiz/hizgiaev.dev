@@ -2,11 +2,11 @@
 const currentPath = Astro.url.pathname;
 
 const navLinks = [
-  { href: '/',           label: 'Home'       },
-  { href: '/about',      label: 'About'      },
-  { href: '/experience', label: 'Experience' },
-  { href: '/blog',       label: 'Blog'       },
-  { href: '/contact',    label: 'Contact'    },
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/experience", label: "Experience" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" },
 ];
 ---
 
@@ -16,22 +16,27 @@ const navLinks = [
          bg-zinc-900/95 backdrop-blur-sm border-t border-zinc-800/60"
   style="padding-bottom: calc(0.25rem + env(safe-area-inset-bottom, 0px));"
 >
-  {navLinks.map(({ href, label }) => {
-    const isActive = href === '/' ? currentPath === '/' : currentPath.startsWith(href);
-    return (
-      <a
-        href={href}
-        data-astro-prefetch="hover"
-        aria-current={isActive ? 'page' : undefined}
-        class:list={[
-          'shrink-0 w-fit text-base transition-colors duration-200',
-          'inline-flex items-center min-h-11 px-1',
-          'rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-100',
-          isActive ? 'text-zinc-100 font-medium' : 'text-zinc-400 hover:text-zinc-100',
-        ]}
-      >
-        {label}
-      </a>
-    );
-  })}
+  {
+    navLinks.map(({ href, label }) => {
+      const isActive =
+        href === "/" ? currentPath === "/" : currentPath.startsWith(href);
+      return (
+        <a
+          href={href}
+          data-astro-prefetch="hover"
+          aria-current={isActive ? "page" : undefined}
+          class:list={[
+            "shrink-0 w-fit text-base transition-colors duration-200",
+            "inline-flex items-center min-h-11 px-1",
+            "rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-100",
+            isActive
+              ? "text-zinc-100 font-medium"
+              : "text-zinc-400 hover:text-zinc-100",
+          ]}
+        >
+          {label}
+        </a>
+      );
+    })
+  }
 </footer>

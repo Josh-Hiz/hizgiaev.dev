@@ -1,12 +1,12 @@
-import { Warp } from '@paper-design/shaders-react';
-import { fill, type VariantProps } from './types';
+import { Warp } from "@paper-design/shaders-react";
+import { fill, type VariantProps } from "./types";
 
 export default function Verdant({ speed, ...gl }: VariantProps) {
   return (
     <Warp
       {...gl}
       style={fill}
-      colors={['#a7e58b', '#2c4a35', '#0a180d']}
+      colors={["#a7e58b", "#2c4a35", "#0a180d"]}
       scale={0.9}
       rotation={160}
       proportion={0.64}

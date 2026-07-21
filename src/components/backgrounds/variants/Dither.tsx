@@ -1,5 +1,5 @@
-import { Dithering } from '@paper-design/shaders-react';
-import { fill, type VariantProps } from './types';
+import { Dithering } from "@paper-design/shaders-react";
+import { fill, type VariantProps } from "./types";
 
 export default function Dither({ speed, ...gl }: VariantProps) {
   return (

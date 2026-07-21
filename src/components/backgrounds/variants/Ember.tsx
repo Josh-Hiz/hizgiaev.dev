@@ -1,12 +1,12 @@
-import { Warp } from '@paper-design/shaders-react';
-import { fill, type VariantProps } from './types';
+import { Warp } from "@paper-design/shaders-react";
+import { fill, type VariantProps } from "./types";
 
 export default function Ember({ speed, ...gl }: VariantProps) {
   return (
     <Warp
       {...gl}
       style={fill}
-      colors={['#14120f', '#d07a01', '#f0edea']}
+      colors={["#14120f", "#d07a01", "#f0edea"]}
       proportion={0.45}
       softness={1}
       distortion={0.25}

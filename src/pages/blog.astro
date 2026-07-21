@@ -1,36 +1,52 @@
 ---
-import { getCollection } from 'astro:content';
-import InfoLayout from '../layouts/InfoLayout.astro';
-import BlogPost from '../components/BlogPost.astro';
+import { getCollection } from "astro:content";
+import InfoLayout from "../layouts/InfoLayout.astro";
+import BlogPost from "../components/BlogPost.astro";
 
-const pageTitle = 'My Blog';
-const pageDescription = 'My blog page where I post about my interests, recent experiences, opinions and the like.';
+const pageTitle = "My Blog";
+const pageDescription =
+  "My blog page where I post about my interests, recent experiences, opinions and the like.";
 
-const posts = (await getCollection('blog')).sort(
+const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 );
 ---
 
 <InfoLayout pageTitle={pageTitle} pageDescription={pageDescription}>
   <div class="p-4 sm:pt-8 sm:px-12 pb-20 min-h-dvh flex flex-col">
-    <h1 class="text-white font-bold text-balance text-4xl md:text-6xl xl:text-8xl tracking-tight">
+    <h1
+      class="text-white font-bold text-balance text-4xl md:text-6xl xl:text-8xl tracking-tight"
+    >
       My Blog
     </h1>
 
-    <p class="mt-4 md:mt-8 lg:mt-12 text-xl xl:text-2xl text-zinc-400 text-balance">
-      You can also view posts I create by their <a href="/tags" class="text-white font-bold hover:underline">tags</a>.
+    <p
+      class="mt-4 md:mt-8 lg:mt-12 text-xl xl:text-2xl text-zinc-400 text-balance"
+    >
+      You can also view posts I create by their <a
+        href="/tags"
+        class="text-white font-bold hover:underline">tags</a
+      >.
     </p>
 
     <div class="mt-6 sm:mt-12">
-      {posts.length === 0 ? (
-        <p class="text-zinc-400 text-lg">No posts yet &mdash; check back soon.</p>
-      ) : (
-        <ul>
-          {posts.map((post) => (
-            <BlogPost url={`/posts/${post.id}`} title={post.data.title} pubDate={post.data.pubDate} />
-          ))}
-        </ul>
-      )}
+      {
+        posts.length === 0 ? (
+          <p class="text-zinc-400 text-lg">
+            No posts yet &mdash; check back soon.
+          </p>
+        ) : (
+          <ul>
+            {posts.map((post) => (
+              <BlogPost
+                url={`/posts/${post.id}`}
+                title={post.data.title}
+                pubDate={post.data.pubDate}
+              />
+            ))}
+          </ul>
+        )
+      }
     </div>
   </div>
 </InfoLayout>

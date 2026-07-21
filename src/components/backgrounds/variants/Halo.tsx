@@ -1,5 +1,5 @@
-import { SmokeRing } from '@paper-design/shaders-react';
-import { fill, type VariantProps } from './types';
+import { SmokeRing } from "@paper-design/shaders-react";
+import { fill, type VariantProps } from "./types";
 
 export default function Halo({ speed, ...gl }: VariantProps) {
   return (
@@ -9,7 +9,7 @@ export default function Halo({ speed, ...gl }: VariantProps) {
       fit="cover"
       scale={1.4}
       colorBack="#05070f"
-      colors={['#7fb2ff', '#e0eaff', '#1e5fbf']}
+      colors={["#7fb2ff", "#e0eaff", "#1e5fbf"]}
       noiseScale={1.6}
       noiseIterations={6}
       radius={0.35}

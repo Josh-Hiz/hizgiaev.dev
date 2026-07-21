@@ -1,25 +1,53 @@
-import { Suspense, lazy, useEffect, useRef, useState, type ComponentType, type CSSProperties, type LazyExoticComponent } from 'react';
-import { type BackgroundVariant, backgroundFallbacks } from './presets';
-import { variantLoaders } from './variants/registry';
-import type { VariantProps } from './variants/types';
+import {
+  Suspense,
+  lazy,
+  useEffect,
+  useRef,
+  useState,
+  type ComponentType,
+  type CSSProperties,
+  type LazyExoticComponent,
+} from "react";
+import { type BackgroundVariant, backgroundFallbacks } from "./presets";
+import { variantLoaders } from "./variants/registry";
+import type { VariantProps } from "./variants/types";
 import {
   type BackgroundSettings,
   type ShaderQuality,
   readSettings,
   subscribe,
-} from '@lib/background-settings';
+} from "@lib/background-settings";
 
 const QUALITY: Record<
   ShaderQuality,
-  { minPixelRatio: number; maxPixelCount: number; powerPreference: WebGLPowerPreference }
+  {
+    minPixelRatio: number;
+    maxPixelCount: number;
+    powerPreference: WebGLPowerPreference;
+  }
 > = {
-  high: { minPixelRatio: 2, maxPixelCount: 5_000_000, powerPreference: 'high-performance' },
-  balanced: { minPixelRatio: 1.5, maxPixelCount: 2_500_000, powerPreference: 'default' },
-  low: { minPixelRatio: 1, maxPixelCount: 1_200_000, powerPreference: 'low-power' },
+  high: {
+    minPixelRatio: 2,
+    maxPixelCount: 5_000_000,
+    powerPreference: "high-performance",
+  },
+  balanced: {
+    minPixelRatio: 1.5,
+    maxPixelCount: 2_500_000,
+    powerPreference: "default",
+  },
+  low: {
+    minPixelRatio: 1,
+    maxPixelCount: 1_200_000,
+    powerPreference: "low-power",
+  },
 };
 
 /** lazy() must be called once per variant, not once per render. */
-const lazyCache = new Map<BackgroundVariant, LazyExoticComponent<ComponentType<VariantProps>>>();
+const lazyCache = new Map<
+  BackgroundVariant,
+  LazyExoticComponent<ComponentType<VariantProps>>
+>();
 function getVariantComponent(variant: BackgroundVariant) {
   let component = lazyCache.get(variant);
   if (!component) {
@@ -83,21 +111,21 @@ export default function ShaderBackground({
     const reapply = () => {
       const current = readSettings();
       document.documentElement.style.setProperty(
-        '--shader-fallback',
+        "--shader-fallback",
         backgroundFallbacks[current.variant],
       );
     };
     reapply();
-    document.addEventListener('astro:after-swap', reapply);
-    return () => document.removeEventListener('astro:after-swap', reapply);
+    document.addEventListener("astro:after-swap", reapply);
+    return () => document.removeEventListener("astro:after-swap", reapply);
   }, [override]);
 
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () => setReduceMotion(mq.matches);
     sync();
-    mq.addEventListener('change', sync);
-    return () => mq.removeEventListener('change', sync);
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
   }, []);
 
   useEffect(() => {
@@ -131,18 +159,19 @@ export default function ShaderBackground({
       clearPending();
       setOnscreen(true);
     };
-    document.addEventListener('astro:after-swap', onSwap);
-    document.addEventListener('astro:page-load', onSwap);
+    document.addEventListener("astro:after-swap", onSwap);
+    document.addEventListener("astro:page-load", onSwap);
 
     return () => {
       clearPending();
       io.disconnect();
-      document.removeEventListener('astro:after-swap', onSwap);
-      document.removeEventListener('astro:page-load', onSwap);
+      document.removeEventListener("astro:after-swap", onSwap);
+      document.removeEventListener("astro:page-load", onSwap);
     };
   }, [pauseWhenOffscreen]);
 
-  const variant: BackgroundVariant | null = override ?? settings?.variant ?? null;
+  const variant: BackgroundVariant | null =
+    override ?? settings?.variant ?? null;
   const enabledSetting = override !== undefined || (settings?.enabled ?? false);
 
   // The library computes `renderScale = canvasWidth / parentWidth`. A zero-width
@@ -165,7 +194,8 @@ export default function ShaderBackground({
     return () => ro.disconnect();
   }, []);
 
-  const enabled = enabledSetting && hasBox && (!unmountWhenOffscreen || onscreen);
+  const enabled =
+    enabledSetting && hasBox && (!unmountWhenOffscreen || onscreen);
 
   useEffect(() => {
     if (!variant || !enabled) return;
@@ -182,7 +212,7 @@ export default function ShaderBackground({
 
   const running = !reduceMotion && onscreen;
   const speed = running ? (override ? 1 : (settings?.speed ?? 1)) : 0;
-  const q = QUALITY[quality ?? settings?.quality ?? 'high'];
+  const q = QUALITY[quality ?? settings?.quality ?? "high"];
 
   const Variant = variant && enabled ? getVariantComponent(variant) : null;
 
@@ -195,10 +225,10 @@ export default function ShaderBackground({
     const root = ref.current;
     if (!root || !Variant) return;
 
-    let canvas: HTMLCanvasElement | null = root.querySelector('canvas');
+    let canvas: HTMLCanvasElement | null = root.querySelector("canvas");
     // The variant chunk is lazy, so the canvas usually lands a tick later.
     const observer = new MutationObserver(() => {
-      const found = root.querySelector('canvas');
+      const found = root.querySelector("canvas");
       if (found) canvas = found;
     });
     observer.observe(root, { childList: true, subtree: true });
@@ -206,9 +236,9 @@ export default function ShaderBackground({
     return () => {
       observer.disconnect();
       if (!canvas) return;
-      const gl = (canvas.getContext('webgl2') ??
-        canvas.getContext('webgl')) as WebGLRenderingContext | null;
-      gl?.getExtension('WEBGL_lose_context')?.loseContext();
+      const gl = (canvas.getContext("webgl2") ??
+        canvas.getContext("webgl")) as WebGLRenderingContext | null;
+      gl?.getExtension("WEBGL_lose_context")?.loseContext();
     };
   }, [Variant]);
 
@@ -216,15 +246,17 @@ export default function ShaderBackground({
   // including the inline style holding --shader-fallback, and the head script
   // that set it does not re-run. So once we know the variant we inline the real
   // gradient; the var is only the pre-hydration stand-in.
-  const fallback = variant ? backgroundFallbacks[variant] : 'var(--shader-fallback)';
+  const fallback = variant
+    ? backgroundFallbacks[variant]
+    : "var(--shader-fallback)";
 
   // Absolute, not width/height:100%. Inside a positioned wrapper it fills it;
   // when Astro orphans it onto <html> it falls back to the initial containing
   // block (the viewport) rather than collapsing to zero.
   const surface: CSSProperties = {
-    position: 'absolute',
+    position: "absolute",
     inset: 0,
-    overflow: 'hidden',
+    overflow: "hidden",
     background: fallback,
   };
 
@@ -232,8 +264,8 @@ export default function ShaderBackground({
     <div ref={ref} style={surface}>
       <div
         style={{
-          width: '100%',
-          height: '100%',
+          width: "100%",
+          height: "100%",
           opacity: ready && Variant ? 1 : 0,
           transition: `opacity ${fadeMs}ms ease-out`,
         }}
